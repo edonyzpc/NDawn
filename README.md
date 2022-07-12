@@ -12,7 +12,7 @@ The theme looks for a menu item with three dots (`...`) in its URL, and uses tha
 | Sub-1      | https://example.com/sub-1 |
 | Sub-2      | https://example.com/sub-2 |
 
-### 2. dark theme change button
+### 2. dark/light theme change button
 
 ## Dawn(Origin README of Dawn)
 
