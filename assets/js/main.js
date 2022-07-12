@@ -10,6 +10,8 @@ var progress = $('.sticky-progress');
 $(function () {
     'use strict';
     subMenu();
+    whiteLogo();
+    whiteIcon();
     featured();
     pagination();
     video();
@@ -19,6 +21,7 @@ $(function () {
     modal();
     search();
     burger();
+    theme();
 });
 
 $(window).on('scroll', function () {
@@ -62,8 +65,8 @@ function sticky() {
     progress.css(
         'transform',
         'translate3d(' +
-            (-100 + Math.min((st * 100) / contentOffset, 100)) +
-            '%,0,0)'
+        (-100 + Math.min((st * 100) / contentOffset, 100)) +
+        '%,0,0)'
     );
 
     lastSt = st;
@@ -71,60 +74,53 @@ function sticky() {
 
 function subMenu() {
     'use strict';
-    var nav = document.querySelector('.main-nav');
+    var mainNav = $('.main-nav');
+    var separator = mainNav.find('.menu-item[href*="..."]');
 
-    // For sites that don't have a main navigation, there is nothing to do
-    if (!nav) {
-        return;
-    }
+    if (separator.length) {
+        separator.nextAll('.menu-item').wrapAll('<div class="sub-menu" />');
+        separator.replaceWith(
+            '<button class="button-icon menu-item-button menu-item-more" aria-label="More"><svg class="icon"><use xlink:href="#dots-horizontal"></use></svg></button>'
+        );
 
-    var items = nav.querySelectorAll('.menu-item');
+        var toggle = mainNav.find('.menu-item-more');
+        var subMenu = $('.sub-menu');
+        toggle.append(subMenu);
 
-    function getSiblings(el, filter) {
-        var siblings = [];
-        while (el= el.nextSibling) { if (!filter || filter(el)) siblings.push(el); }
-        return siblings;
-    }
-
-    function exampleFilter(el) {
-        return el.nodeName.toLowerCase() == 'a';
-    }
-
-    if (items.length > 5) {
-        var separator = items[4];
-
-        var toggle = document.createElement('button');
-        toggle.setAttribute('class', 'button-icon menu-item-button menu-item-more');
-        toggle.setAttribute('aria-label', 'More');
-        toggle.innerHTML = '<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M21.333 16c0-1.473 1.194-2.667 2.667-2.667v0c1.473 0 2.667 1.194 2.667 2.667v0c0 1.473-1.194 2.667-2.667 2.667v0c-1.473 0-2.667-1.194-2.667-2.667v0zM13.333 16c0-1.473 1.194-2.667 2.667-2.667v0c1.473 0 2.667 1.194 2.667 2.667v0c0 1.473-1.194 2.667-2.667 2.667v0c-1.473 0-2.667-1.194-2.667-2.667v0zM5.333 16c0-1.473 1.194-2.667 2.667-2.667v0c1.473 0 2.667 1.194 2.667 2.667v0c0 1.473-1.194 2.667-2.667 2.667v0c-1.473 0-2.667-1.194-2.667-2.667v0z"></path></svg>';
-
-        var wrapper = document.createElement('div');
-        wrapper.setAttribute('class', 'sub-menu');
-
-        var children = getSiblings(separator, exampleFilter);
-
-        children.forEach(function (child) {
-            wrapper.appendChild(child);
-        });
-
-        toggle.appendChild(wrapper);
-        separator.parentNode.appendChild(toggle);
-
-        toggle.addEventListener('click', function () {
-            if (window.getComputedStyle(wrapper).display == 'none') {
-                wrapper.style.display = 'block';
-                wrapper.classList.add('animate__animated', 'animate__bounceIn');
+        toggle.on('click', function () {
+            if (!subMenu.is(':visible')) {
+                subMenu.show().addClass('animate__animated animate__bounceIn');
             } else {
-                wrapper.classList.add('animate__animated', 'animate__zoomOut');
+                subMenu.addClass('animate__animated animate__zoomOut');
             }
         });
 
-        wrapper.addEventListener('animationend', function (e) {
-            wrapper.classList.remove('animate__animated', 'animate__bounceIn', 'animate__zoomOut');
-            if (e.animationName == 'zoomOut') {
-                wrapper.style.display = 'none';
+        subMenu.on('animationend', function (e) {
+            subMenu.removeClass(
+                'animate__animated animate__bounceIn animate__zoomOut'
+            );
+            if (e.originalEvent.animationName == 'zoomOut') {
+                subMenu.hide();
             }
         });
+    }
+}
+
+function whiteLogo() {
+    'use strict';
+    if (typeof gh_white_logo != 'undefined') {
+        var whiteImage =
+            '<img class="logo-image white" src="' + gh_white_logo + '">';
+        $('.logo').prepend(whiteImage);
+    }
+}
+
+function whiteIcon() {
+    'use strict';
+    if (typeof gh_white_icon != 'undefined') {
+        var whiteImage =
+            '<img class="cover-icon-image white" src="' + gh_white_icon + '">';
+        $('.cover-icon').prepend(whiteImage);
     }
 }
 
@@ -368,12 +364,12 @@ function search() {
 
         $.get(
             url +
-                "&filter=updated_at:>'" +
-                localStorage
-                    .getItem('dawn_search_last')
-                    .replace(/\..*/, '')
-                    .replace(/T/, ' ') +
-                "'",
+            "&filter=updated_at:>'" +
+            localStorage
+                .getItem('dawn_search_last')
+                .replace(/\..*/, '')
+                .replace(/T/, ' ') +
+            "'",
             function (data) {
                 if (data.posts.length > 0) {
                     update(data);
@@ -427,6 +423,54 @@ function burger() {
     'use strict';
     $('.burger').on('click', function () {
         body.toggleClass('menu-opened');
+    });
+}
+
+function theme() {
+    'use strict';
+    var toggle = $('.js-theme');
+    var toggleText = toggle.find('.theme-text');
+
+    function system() {
+        html.removeClass(['theme-dark', 'theme-light']);
+        localStorage.removeItem('dawn_theme');
+        toggleText.text(toggle.attr('data-system'));
+    }
+
+    function dark() {
+        html.removeClass('theme-light').addClass('theme-dark');
+        localStorage.setItem('dawn_theme', 'dark');
+        toggleText.text(toggle.attr('data-dark'));
+    }
+
+    function light() {
+        html.removeClass('theme-dark').addClass('theme-light');
+        localStorage.setItem('dawn_theme', 'light');
+        toggleText.text(toggle.attr('data-light'));
+    }
+
+    switch (localStorage.getItem('dawn_theme')) {
+        case 'dark':
+            dark();
+            break;
+        case 'light':
+            light();
+            break;
+        default:
+            system();
+            break;
+    }
+
+    toggle.on('click', function (e) {
+        e.preventDefault();
+
+        if (!html.hasClass('theme-dark') && !html.hasClass('theme-light')) {
+            dark();
+        } else if (html.hasClass('theme-dark')) {
+            light();
+        } else {
+            system();
+        }
     });
 }
 

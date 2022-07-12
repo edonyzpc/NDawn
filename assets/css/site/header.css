@@ -19,7 +19,7 @@
     margin: 0;
 }
 
-.header-right .menu-item + .menu-item {
+.header-right .menu-item+.menu-item {
     margin-left: 2rem;
 }
 
@@ -54,7 +54,8 @@
     font-weight: 700;
 }
 
-.site-header .menu-item:nth-child(n+6) {
+.menu-item[href*="..."],
+.menu-item[href*="..."]~.menu-item {
     display: none;
 }
 
@@ -128,8 +129,12 @@
     text-align: right;
 }
 
-.mobile-menu .menu-item + .menu-item {
+.mobile-menu .menu-item+.menu-item {
     margin-top: 1.5rem;
+}
+
+.mobile-menu .menu-item[href*="..."]~.menu-item {
+    display: inline;
 }
 
 .mobile-nav {
