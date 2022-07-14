@@ -5,8 +5,8 @@
 
 .tag-name {
     margin-bottom: 0;
+    font-size: 3rem;
     color: var(--brand-color);
-    font-size: 2.4rem;
 }
 
 .tag-name::before {
@@ -14,8 +14,8 @@
 }
 
 .tag-description {
-    margin: 1rem auto 0;
-    max-width: 500px;
+    max-width: 520px;
+    margin: 16px auto 0;
 }
 
 .tag-list {
@@ -38,10 +38,6 @@
 
 .tag-media {
     margin-top: 4.5rem;
-}
-
-.tag-media::before {
-    padding-bottom: 35% !important;
 }
 
 @media (max-width: 767px) {

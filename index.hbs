@@ -1,12 +1,13 @@
 {{!< default}}
 
-<div class="content-area">
-    <main class="site-main">
-        <div class="post-feed container medium">
-            {{#foreach posts}}
-                {{> "loop"}}
-            {{/foreach}}
-        </div>
-        {{pagination}}
-    </main>
-</div>
+<main class="site-main">
+
+    <div class="post-feed gh-feed gh-canvas">
+        {{#foreach posts}}
+            {{> "loop"}}
+        {{/foreach}}
+    </div>
+
+    {{pagination}}
+
+</main>

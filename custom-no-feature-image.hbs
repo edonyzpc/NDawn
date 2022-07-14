@@ -1,15 +1,16 @@
 {{!< default}}
 
-<div class="content-area">
-    <main class="site-main">
-        {{#post}}
-            {{> content no_image=true}}
-        {{/post}}
-        {{#is "post"}}
-            {{#if @custom.show_related_posts}}
-                {{> related}}
-            {{/if}}
-            {{> comment}}
-        {{/is}}
-    </main>
-</div>
+<main class="site-main">
+
+    {{#post}}
+        {{> "content" no_image=true}}
+        {{> "comment"}}
+    {{/post}}
+
+    {{#is "post"}}
+        {{#if @custom.show_related_posts}}
+            {{> "related-posts"}}
+        {{/if}}
+    {{/is}}
+
+</main>
