@@ -19,7 +19,6 @@ $(function () {
     table();
     toc();
     modal();
-    search();
     burger();
     theme();
 });
@@ -299,123 +298,6 @@ function modal() {
 
     modal.on('transitionend', function (e) {
         e.stopPropagation();
-    });
-}
-
-function search() {
-    'use strict';
-    if (
-        typeof gh_search_key == 'undefined' ||
-        gh_search_key == ''
-    )
-        return;
-
-    var searchInput = $('.search-input');
-    var searchButton = $('.search-button');
-    var searchResult = $('.search-result');
-    var popular = $('.popular-wrapper');
-    var includeContent = typeof gh_search_content == 'undefined' || gh_search_content == true ? true : false;
-
-    var url =
-        siteUrl +
-        '/ghost/api/v3/content/posts/?key=' +
-        gh_search_key +
-        '&limit=all&fields=id,title,url,updated_at,visibility&order=updated_at%20desc';
-    url += includeContent ? '&formats=plaintext' : '';
-    var indexDump = JSON.parse(localStorage.getItem('dawn_search_index'));
-    var index;
-
-    elasticlunr.clearStopWords();
-
-    localStorage.removeItem('dawn_index');
-    localStorage.removeItem('dawn_last');
-
-    function update(data) {
-        data.posts.forEach(function (post) {
-            index.addDoc(post);
-        });
-
-        try {
-            localStorage.setItem('dawn_search_index', JSON.stringify(index));
-            localStorage.setItem('dawn_search_last', data.posts[0].updated_at);
-        } catch (e) {
-            console.error('Your browser local storage is full. Update your search settings following the instruction at https://github.com/TryGhost/Dawn#disable-content-search');
-        }
-    }
-
-    if (
-        !indexDump
-    ) {
-        $.get(url, function (data) {
-            if (data.posts.length > 0) {
-                index = elasticlunr(function () {
-                    this.addField('title');
-                    if (includeContent) {
-                        this.addField('plaintext');
-                    }
-                    this.setRef('id');
-                });
-
-                update(data);
-            }
-        });
-    } else {
-        index = elasticlunr.Index.load(indexDump);
-
-        $.get(
-            url +
-            "&filter=updated_at:>'" +
-            localStorage
-                .getItem('dawn_search_last')
-                .replace(/\..*/, '')
-                .replace(/T/, ' ') +
-            "'",
-            function (data) {
-                if (data.posts.length > 0) {
-                    update(data);
-                }
-            }
-        );
-    }
-
-    searchInput.on('keyup', function (e) {
-        var result = index.search(e.target.value, { expand: true });
-        var output = '';
-
-        result.forEach(function (post) {
-            output +=
-                '<div class="search-result-row">' +
-                '<a class="search-result-row-link" href="' +
-                post.doc.url +
-                '">' +
-                post.doc.title +
-                '</a>' +
-                '</div>';
-        });
-
-        searchResult.html(output);
-
-        if (e.target.value.length > 0) {
-            searchButton.addClass('search-button-clear');
-        } else {
-            searchButton.removeClass('search-button-clear');
-        }
-
-        if (result.length > 0) {
-            popular.hide();
-        } else {
-            popular.show();
-        }
-    });
-
-    $('.search-form').on('submit', function (e) {
-        e.preventDefault();
-    });
-
-    searchButton.on('click', function () {
-        if ($(this).hasClass('search-button-clear')) {
-            searchInput.val('').focus().keyup();
-        }
     });
 }
 
