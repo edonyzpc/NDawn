@@ -2,6 +2,9 @@
 
 <div class="content-area">
     <main class="site-main">
+        {{#post}}
+            {{> content width="narrow"}}
+        {{/post}}
         <div class="post-feed container medium">
             {{#get "posts" limit="all" filter="tag:hash-twitter" order="published_at asc"}}
                 {{#foreach posts}}
