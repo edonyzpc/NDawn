@@ -14,6 +14,18 @@ The theme looks for a menu item with three dots (`...`) in its URL, and uses tha
 
 ### 2. dark/light theme change button
 
+## Development env setup
+
+For quickly seting up NDawn development environment, I will introduce the utils for quickly startup
+with one short cmdline.
+
+### usage
+1. run `make env` cmdline to setup development environment.
+2. run `make startup` to setup environment and yarn developement envrionment
+
+### details
+You can check `Makefile` for more details about commands to do the setting up thing.
+
 ## Dawn(Origin README of Dawn)
 
 A highly functional theme that adapts to the reader's preferences. Let them read, search, subscribe, navigate, and more with ease. Completely free and fully responsive, released under the MIT license.
