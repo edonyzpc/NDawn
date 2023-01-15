@@ -2,6 +2,9 @@
 
 NDwan is Next Dawn for personal customized TryGhost official theme Dawn.
 
+## Preview of NDawn
+![preview](./docs/2023-01-15-19.55.47-720p.mp4)
+
 ## Features of NDawn
 ### 1. clickable menubar
 The theme looks for a menu item with three dots (`...`) in its URL, and uses that as a dropdown menu toggle. All menu items after the toggle will be added to the dropdown list automatically.
