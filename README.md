@@ -3,7 +3,11 @@
 NDwan is Next Dawn for personal customized TryGhost official theme Dawn.
 
 ## Preview of NDawn
-![preview](./docs/2023-01-15-19.55.47-720p.mp4)
+
+
+https://user-images.githubusercontent.com/7744664/212541137-beaf33b5-6412-425c-8912-bc6086cc35ed.mov
+
+
 
 ## Features of NDawn
 ### 1. clickable menubar
