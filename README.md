@@ -1,6 +1,6 @@
 # NDawn
 
-NDwan is Next Dawn for personal customized TryGhost official theme Dawn.
+NDwan is Next Dawn for personal customized TryGhost official theme [Dawn](https://github.com/TryGhost/Dawn/).
 
 ## Preview of NDawn
 
