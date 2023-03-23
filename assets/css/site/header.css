@@ -19,7 +19,7 @@
     margin: 0;
 }
 
-.header-right .menu-item+.menu-item {
+.header-right .menu-item + .menu-item {
     margin-left: 2rem;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .menu-item[href*="..."],
-.menu-item[href*="..."]~.menu-item {
+.menu-item[href*="..."] ~ .menu-item {
     display: none;
 }
 
@@ -70,7 +70,7 @@
 .menu-item-more .icon {
     width: 24px;
     height: 24px;
-    fill: currentColor;
+    fill: currentcolor;
 }
 
 .menu-item-cta {
@@ -129,11 +129,11 @@
     text-align: right;
 }
 
-.mobile-menu .menu-item+.menu-item {
+.mobile-menu .menu-item + .menu-item {
     margin-top: 1.5rem;
 }
 
-.mobile-menu .menu-item[href*="..."]~.menu-item {
+.mobile-menu .menu-item[href*="..."] ~ .menu-item {
     display: inline;
 }
 

@@ -16,6 +16,7 @@
     --twitter-color: #1da1f2;
     --rss-color: #f26522;
     --animation-base: ease-in-out;
+
     /* remove LXGW font
        --font-base: 'LXGW Bright', Mulish, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
     */
@@ -63,7 +64,7 @@ a {
     transition: color 0.1s var(--animation-base);
 }
 
-a:not(.kg-btn):not(.kg-product-card-button):hover {
+a:not(.kg-btn, .kg-product-card-button):hover {
     opacity: 0.8;
 }
 
@@ -149,7 +150,7 @@ code {
     font-size: 14px;
 }
 
-:not(pre)>code {
+:not(pre) > code {
     padding: 0.3rem 0.4rem;
     background-color: var(--lighter-gray-color);
     border-radius: 3px;
@@ -191,7 +192,7 @@ table:not(.highlight) {
     word-break: normal;
 }
 
-table:not(.highlight):not(.table) {
+table:not(.highlight, .table) {
     display: inline-block;
     overflow-x: auto;
     white-space: nowrap;
@@ -203,7 +204,7 @@ table:not(.highlight) thead {
     background-color: var(--lighter-gray-color);
 }
 
-table:not(.highlight) tr+table:not(.highlight) tr {
+table:not(.highlight) tr + table:not(.highlight) tr {
     border-top: 1px solid var(--light-gray-color);
 }
 

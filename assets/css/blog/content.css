@@ -45,7 +45,7 @@ is the very first element in the post content */
 }
 
 /* Cards */
-.gh-content :not(.kg-card):not([id]) + .kg-card {
+.gh-content :not(.kg-card, [id]) + .kg-card {
     margin-top: 4.8rem;
 }
 
