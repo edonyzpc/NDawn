@@ -1,7 +1,7 @@
 {
     "name": "ndawn",
     "description": "A Next Ghost Dawn Theme",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "engines": {
         "ghost": ">=5.0.0"
     },
@@ -87,6 +87,11 @@
             "show_related_posts": {
                 "type": "boolean",
                 "default": true,
+                "group": "post"
+            },
+            "show_google_ads": {
+                "type": "boolean",
+                "default": false,
                 "group": "post"
             }
         }

@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{meta_title}}</title>
     <link rel="stylesheet" href="{{asset "built/screen.css"}}">
-    <link rel="icon" href="favicon_64x64.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="favicon_64x64.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon_circle_64x64.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon_circle_64x64.ico" type="image/x-icon" />
 
     <script>
         var localTheme = localStorage.getItem('dawn_theme');
@@ -24,6 +24,19 @@
     </script>
 
     {{ghost_head}}
+    {{#if @custom.show_google_ads}}
+        <style>
+            #aswift_1_host {
+                display: inline-block;
+                position: relative;
+                /* Move the element to the right by 50% of the container's width */
+                left: 50%; 
+                /* Calculates 50% of the element's width, and moves it by that */ 
+                /* amount across the X-axis to the left */
+                transform: translateX(-50%);
+            }
+        </style>
+    {{/if}}
 </head>
 
 <body class="{{body_class}}{{{block "body_class"}}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Elegant serif"}} has-serif-body{{/match}}">
@@ -53,6 +66,21 @@
     <script src="{{asset "built/main.min.js"}}"></script>
 
     {{ghost_foot}}
+    {{#if @custom.show_google_ads}}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1642118466411022" crossorigin="anonymous"></script>
+        <!-- Square Unit -->
+        <center>
+        <ins class="adsbygoogle"
+            style="display:flex;align-items: center;"
+            data-ad-client="ca-pub-1642118466411022"
+            data-ad-slot="8357815902"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        </center>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    {{/if}}
 </body>
 
 </html>
