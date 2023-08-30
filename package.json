@@ -1,7 +1,7 @@
 {
     "name": "ndawn",
     "description": "A Next Ghost Dawn Theme",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "engines": {
         "ghost": ">=5.0.0"
     },
@@ -71,7 +71,7 @@
             },
             "featured_title": {
                 "type": "text",
-                "default": "Featured articles",
+                "default": "精选辑",
                 "group": "homepage"
             },
             "show_share_links": {
