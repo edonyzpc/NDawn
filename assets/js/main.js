@@ -314,9 +314,12 @@ function theme() {
     var toggleText = toggle.find('.theme-text');
 
     function system() {
-        html.removeClass(['theme-dark', 'theme-light']);
-        localStorage.removeItem('dawn_theme');
-        toggleText.text(toggle.attr('data-system'));
+        // check system dark mode and set the same mode for the theme
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            dark();
+        } else {
+            light();
+        }
     }
 
     function dark() {
