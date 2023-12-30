@@ -1,7 +1,7 @@
 {
     "name": "ndawn",
     "description": "A Next Ghost Dawn Theme",
-    "version": "2.1.9",
+    "version": "2.1.10",
     "engines": {
         "ghost": ">=5.0.0"
     },
