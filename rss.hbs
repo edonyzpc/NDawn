@@ -23,7 +23,7 @@
         <dc:creator><![CDATA[ {{primary_author.name}} ]]></dc:creator>
         <pubDate>{{date format="ddd, DD MMM YYYY HH:mm:ss ZZ"}}</pubDate>
         <media:content url="{{feature_image}}" medium="image"/>
-        <content:encoded><![CDATA[ {{truncate content 160}} ]]></content:encoded>
+        <content:encoded><![CDATA[ {{content words="160"}}... ]]></content:encoded>
     </item>
     {{/foreach}}
 {{/get}}
