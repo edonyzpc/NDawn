@@ -1,11 +1,13 @@
 {{#if post.access}}
-    <section class="ghost-comments gh-canvas">
-        <header class="ghost-comments-header">
-            <h3 class="ghost-comments-title related-title">Member discussion</h3>
-            {{comment_count class="ghost-comments-count"}}
+    {{#if comments}}
+    <section class="gh-comments gh-canvas">
+        <header class="gh-comments-header">
+            <h3 class="gh-comments-title related-title">Member discussion</h3>
+            {{comment_count class="gh-comments-count"}}
         </header>
         {{comments title="" count=false}}
     </section>
+    {{/if}}
     <script src="https://giscus.app/client.js"
             data-repo="edony-shadow-walker/comments"
             data-repo-id="R_kgDOHUBgnA"
