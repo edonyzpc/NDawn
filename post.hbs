@@ -20,7 +20,13 @@
                 {{comments title="" count=false}}
             </section>
         {{/if}}
-        {{> "comments"}}
+        <section class="gh-comments gh-canvas">
+            <hr class="rounded">
+            <header class="gh-comments-header">
+                <h2 class="gh-comments-title related-title">Public discussion</h2>
+            </header>
+            {{> "comments"}}
+        </section>
         {{/post}}
     </main>
 </div>
