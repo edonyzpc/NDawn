@@ -1,7 +1,7 @@
 {{!< default}}
 
 <div class="content-area">
-    <main class="site-main">
+    <main class="site-main" id="{{@site.comments_enabled}}-{{@site.comments_access}}">
         {{#post}}
             {{> content width="narrow"}}
         {{/post}}
