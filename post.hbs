@@ -9,7 +9,9 @@
             {{#if @custom.show_related_posts}}
                 {{> related}}
             {{/if}}
-            {{> comments}}
         {{/is}}
+        {{$post}}
+            {{< "comments"}}
+        {{/post}}
     </main>
 </div>
