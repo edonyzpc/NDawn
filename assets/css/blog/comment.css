@@ -3,15 +3,16 @@
 }
 
 .gh-comments {
-    margin-top: 64px;
-    margin-bottom: -24px;
+    width: calc(100% - 16vw) !important;
+    margin: auto;
 }
 
 .gh-comments-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 40px;
+    margin-top: 20px;
 }
 
 .gh-comments .gh-comments-title {
