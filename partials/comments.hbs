@@ -1,26 +1,24 @@
-{{#if post.access}}
-    {{#if comments}}
-        <section class="gh-comments gh-canvas">
-            <header class="gh-comments-header">
-                <h3 class="gh-comments-title related-title">Member discussion</h3>
-                {{comment_count class="gh-comments-count"}}
-            </header>
-            {{comments title="" count=false}}
-        </section>
-    {{/if}}
+{{#if comments}}
+    <section class="gh-comments gh-canvas">
+        <header class="gh-comments-header">
+            <h3 class="gh-comments-title related-title">Member discussion</h3>
+            {{comment_count class="gh-comments-count"}}
+        </header>
+        {{comments title="" count=false}}
+    </section>
     <script src="https://giscus.app/client.js"
-            data-repo="edony-shadow-walker/comments"
-            data-repo-id="R_kgDOHUBgnA"
-            data-category="General"
-            data-category-id="DIC_kwDOHUBgnM4CPB7L"
-            data-mapping="title"
-            data-reactions-enabled="1"
-            data-emit-metadata="1"
-            data-input-position="top"
-            data-theme="dark_dimmed"
-            data-lang="zh-CN"
-            data-loading="lazy"
-            crossorigin="anonymous"
-            async>
+        data-repo="edony-shadow-walker/comments"
+        data-repo-id="R_kgDOHUBgnA"
+        data-category="General"
+        data-category-id="DIC_kwDOHUBgnM4CPB7L"
+        data-mapping="title"
+        data-reactions-enabled="1"
+        data-emit-metadata="1"
+        data-input-position="top"
+        data-theme="dark_dimmed"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
     </script>
 {{/if}}
