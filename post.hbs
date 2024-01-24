@@ -10,23 +10,23 @@
                 {{> related}}
             {{/if}}
         {{/is}}
-        {{#post}}
-        {{#if comments}}
+        {{#is "post"}}
+            {{#if comments}}
+                <section class="gh-comments gh-canvas">
+                    <header class="gh-comments-header">
+                        <h2 class="gh-comments-title related-title">Member discussion</h2>
+                        {{comment_count class="gh-comments-count"}}
+                    </header>
+                    {{comments title="" count=false}}
+                    <hr class="rounded">
+                </section>
+            {{/if}}
             <section class="gh-comments gh-canvas">
                 <header class="gh-comments-header">
-                    <h2 class="gh-comments-title related-title">Member discussion</h2>
-                    {{comment_count class="gh-comments-count"}}
+                    <h2 class="gh-comments-title related-title">Public discussion</h2>
                 </header>
-                {{comments title="" count=false}}
+                {{> "comments"}}
             </section>
-        {{/if}}
-        <section class="gh-comments gh-canvas">
-            <hr class="rounded">
-            <header class="gh-comments-header">
-                <h2 class="gh-comments-title related-title">Public discussion</h2>
-            </header>
-            {{> "comments"}}
-        </section>
-        {{/post}}
+        {{/is}}
     </main>
 </div>
