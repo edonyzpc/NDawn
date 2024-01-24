@@ -3,6 +3,11 @@
     margin: auto;
 }
 
+.giscus-comments {
+    width: calc(100% - 8vw) !important;
+    margin: auto;
+}
+
 .gh-comments-header {
     display: flex;
     align-items: center;
