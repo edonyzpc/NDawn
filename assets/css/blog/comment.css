@@ -1,9 +1,5 @@
-.comment {
-    margin-top: 4.5rem;
-}
-
 .gh-comments {
-    width: calc(100% - 16vw) !important;
+    width: calc(85% - 8vw) !important;
     margin: auto;
 }
 
@@ -25,4 +21,5 @@
 
 .gh-comments-count {
     color: var(--color-secondary-text);
+    padding-left: 6px;
 }
