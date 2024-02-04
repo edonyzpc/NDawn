@@ -1,10 +1,10 @@
 .gh-comments {
-    width: calc(85% - 8vw) !important;
+    width: calc(100% - 8vw) !important;
     margin: auto;
 }
 
 .giscus-comments {
-    width: calc(100% - 8vw) !important;
+    width: calc(100%) !important;
     margin: auto;
 }
 
