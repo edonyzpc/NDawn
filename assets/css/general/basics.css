@@ -127,8 +127,8 @@ figcaption {
 }
 
 figcaption a {
-    color: var(--secondary-text-color) !important;
-    font-weight: 400 !important;
+    color: var(--ghost-accent-color);
+    font-weight: 400;
 }
 
 pre {
