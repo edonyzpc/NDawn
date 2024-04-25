@@ -320,6 +320,7 @@ function theme() {
         } else {
             light();
         }
+        toggleText.text(toggle.attr('data-system'));
     }
 
     function dark() {
@@ -350,11 +351,11 @@ function theme() {
         e.preventDefault();
 
         if (!html.hasClass('theme-dark') && !html.hasClass('theme-light')) {
-            dark();
+            system();
         } else if (html.hasClass('theme-dark')) {
             light();
         } else {
-            system();
+            dark();
         }
     });
 }
