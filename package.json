@@ -1,15 +1,15 @@
 {
     "name": "ndawn",
     "description": "A Next Ghost Dawn Theme",
-    "version": "2.1.20",
+    "version": "2.1.21",
     "engines": {
         "ghost": ">=5.0.0"
     },
     "license": "MIT",
     "author": {
-        "name": "Ghost Foundation",
-        "email": "hello@ghost.org",
-        "url": "https://ghost.org"
+        "name": "Shadow Walker 松烟阁",
+        "email": "edonyzpc@edony.ink",
+        "url": "https://edony.ink"
     },
     "keywords": [
         "ghost",
