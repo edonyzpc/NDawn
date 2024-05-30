@@ -133,7 +133,7 @@ code[class*=language-], pre[class*=language-] {
     text-shadow: none !important;
 }
 .language-css .token.string, .style .token.string, .token.entity, .token.operator, .token.url {
-    background: unset;
+    background: unset !important;
 }
 /*** tags ***/
 .content-tag,.tag-list-item {
