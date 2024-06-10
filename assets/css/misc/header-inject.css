@@ -86,7 +86,6 @@ table:not(.highlight) tr:hover td {
 div[id^='file-'] > article > blockquote {
 	background-color: white !important;
 }*/
-
 /*** menu config ***/
 .sub-menu .menu-item {
   font-style: normal !important;
@@ -123,7 +122,6 @@ div[id^='file-'] > article > blockquote {
   margin: auto;
   min-height: 150px;
 }
-
 /*** table style config ***/
 table:not(.highlight) tr:hover td {
   background-color: #c0c0c030 !important;
@@ -144,7 +142,7 @@ table th {
   border-bottom: 1px solid #c6c6c6 !important;
   background-color: #ddeeff !important;
   padding: 5px 9px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
 }
 table td {
@@ -152,7 +150,7 @@ table td {
   border-right: 1px solid #c6c6c6 !important;
   border-bottom: 1px solid #c6c6c6 !important;
   padding: 5px 9px;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: normal;
   text-wrap: pretty !important;
 }
@@ -162,13 +160,11 @@ table tr:nth-child(odd) {
 table tr:nth-child(even) {
   background-color: #f8f8f8 !important;
 }
-
 /*** cloudflare style config ***/
 cloudflare-app[app="flashcard"] a {
   color: #ff4015 !important;
   font-style: bold;
 }
-
 /*** prism customize ***/
 code[class*="language-"],
 pre[class*="language-"] {
