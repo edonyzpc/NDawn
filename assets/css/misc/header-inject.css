@@ -52,15 +52,15 @@ div[class="forever-blog"] > a > img {
 /*** excerpt config ***/
 div.single-excerpt,
 div.cover-description {
-  font-family: "Barlow", "Recursive Monospace", "LXGW Bright", -apple-system !important;
-  font-weight: thin;
+  font-family: "Alike", "Barlow", "Recursive Monospace", "LXGW Bright", -apple-system !important;
+  font-weight: normal;
   /*font-style: italic;*/
   color: #ff4015; /*#5aa49d;#FF00FF;*/
   font-size: 15px;
 }
 blockquote:not([class]) {
-  font-family: "Barlow", "Recursive Monospace", "LXGW Bright", -apple-system !important;
-  font-style: thin;
+  font-family: "Alike", 'Zhuque Fangsong (technical preview)', "Barlow", "Recursive Monospace", "LXGW Bright", -apple-system !important;
+  font-style: normal;
   font-size: 1.6rem;
 }
 /*** github gist config ***/
