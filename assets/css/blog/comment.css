@@ -2,10 +2,26 @@
     width: calc(100% - 8vw) !important;
     margin: auto;
 }
-
-.giscus-comments {
-    width: calc(100%) !important;
-    margin: auto;
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+    .giscus-comments {
+        width: calc(100%) !important;
+        margin: auto;
+    }
+}
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
+    .giscus-comments {
+        width: calc(100% - 6vw) !important;
+        margin: auto;
+    }
+}
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+    .giscus-comments {
+        width: calc(100% - 20vw) !important;
+        margin: auto;
+    }
 }
 
 .gh-comments-header {
