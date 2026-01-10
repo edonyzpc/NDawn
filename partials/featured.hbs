@@ -9,13 +9,40 @@
                     <article class="{{post_class}}">
                         {{#if feature_image}}
                             <div class="u-placeholder horizontal">
-                                <img class="lazyload u-object-fit"
-                                    data-srcset="{{> srcset}}" data-sizes="auto"
-                                    src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-                                    loading="lazy"
-                                    decoding="async"
-                                    alt="{{title}}"
-                                >
+                                {{#if @first}}
+                                    <picture>
+                                        <source
+                                            type="image/webp"
+                                            srcset="{{img_url feature_image size="s" format="webp"}} 400w, {{img_url feature_image size="m" format="webp"}} 750w, {{img_url feature_image size="l" format="webp"}} 960w, {{img_url feature_image size="xl" format="webp"}} 1140w"
+                                            sizes="(max-width: 767px) 92vw, (max-width: 991px) 48vw, 400px"
+                                        >
+                                        <img class="u-object-fit"
+                                            srcset="{{> srcset}}"
+                                            sizes="(max-width: 767px) 92vw, (max-width: 991px) 48vw, 400px"
+                                            src="{{img_url feature_image size="s"}}"
+                                            loading="eager"
+                                            fetchpriority="high"
+                                            decoding="async"
+                                            alt="{{title}}"
+                                        >
+                                    </picture>
+                                {{else}}
+                                    <picture>
+                                        <source
+                                            type="image/webp"
+                                            data-srcset="{{img_url feature_image size="s" format="webp"}} 400w, {{img_url feature_image size="m" format="webp"}} 750w, {{img_url feature_image size="l" format="webp"}} 960w, {{img_url feature_image size="xl" format="webp"}} 1140w"
+                                            data-sizes="(max-width: 767px) 92vw, (max-width: 991px) 48vw, 400px"
+                                        >
+                                        <img class="lazyload u-object-fit"
+                                            data-srcset="{{> srcset}}"
+                                            data-sizes="(max-width: 767px) 92vw, (max-width: 991px) 48vw, 400px"
+                                            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                            loading="lazy"
+                                            decoding="async"
+                                            alt="{{title}}"
+                                        >
+                                    </picture>
+                                {{/if}}
                             </div>
                         {{/if}}
                         <h3 class="post-title">{{title}}</h3>
