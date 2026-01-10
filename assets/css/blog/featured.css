@@ -25,3 +25,17 @@
     letter-spacing: 0.05rem;
     text-transform: uppercase;
 }
+
+@media (max-width: 767px) {
+    .featured-feed.owl {
+        display: block;
+    }
+
+    .featured-feed.owl:not(.owl-loaded) > article {
+        display: none;
+    }
+
+    .featured-feed.owl:not(.owl-loaded) > article:first-child {
+        display: block;
+    }
+}
