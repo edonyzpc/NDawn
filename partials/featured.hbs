@@ -1,4 +1,4 @@
-{{#get "posts" filter="featured:true" limit="all" as |featured|}}
+{{#get "posts" filter="featured:true" limit="6" as |featured|}}
     {{#if featured}}
         <section class="featured-wrapper container">
             {{#if @custom.featured_title}}

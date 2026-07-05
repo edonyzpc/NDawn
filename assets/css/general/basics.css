@@ -17,7 +17,9 @@
     --rss-color: #f26522;
     --animation-base: ease-in-out;
 
-    --font-base: Mulish, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
+    --font-base: var(--gh-font-body, Mulish, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif);
+    /* stylelint-disable-line value-keyword-case */
+    --font-heading: var(--gh-font-heading, var(--font-base));
     /* stylelint-disable-line value-keyword-case */
     --font-serif: Lora, Times, serif;
     /* stylelint-disable-line value-keyword-case */
@@ -73,7 +75,7 @@ h5,
 h6 {
     margin: 0 0 1.5rem;
     color: var(--darker-gray-color);
-    font-family: var(--font-base);
+    font-family: var(--font-heading);
     line-height: 1.3;
     font-weight: 800;
 }

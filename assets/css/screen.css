@@ -9,9 +9,6 @@
 @import "site/sticky.css";
 @import "site/cover.css";
 @import "site/footer.css";
-@import "site/modal.css";
-@import "site/search.css";
-@import "site/popular.css";
 @import "site/burger.css";
 @import "blog/feed.css";
 @import "blog/featured.css";
@@ -24,6 +21,7 @@
 @import "blog/related.css";
 @import "blog/comment.css";
 @import "blog/tag.css";
+@import "blog/ads.css";
 @import "members/plan.css";
 @import "members/auth.css";
 @import "members/account.css";

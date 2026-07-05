@@ -49,18 +49,36 @@ function css(done) {
     ], handleError(done));
 }
 
-function js(done) {
-    pump([
-        src([
-            'assets/js/lib/*.js',
-            'assets/js/main.js'
-        ], {sourcemaps: true}),
-        concat('main.min.js'),
-        uglify(),
-        dest('assets/built/', {sourcemaps: '.'}),
-        livereload()
-    ], handleError(done));
+function jsBundle(filename, files) {
+    return function bundle(done) {
+        pump([
+            src(files, {sourcemaps: true}),
+            concat(filename),
+            uglify(),
+            dest('assets/built/', {sourcemaps: '.'}),
+            livereload()
+        ], handleError(done));
+    };
 }
+
+const jsMain = jsBundle('main.min.js', [
+    'assets/js/lib/lazysizes.min.js',
+    'assets/js/main.js'
+]);
+
+const jsHome = jsBundle('home.min.js', [
+    'assets/js/lib/owl.carousel.min.js',
+    'assets/js/lib/infinite-scroll.pkgd.min.js',
+    'assets/js/home.js'
+]);
+
+const jsPost = jsBundle('post.min.js', [
+    'assets/js/lib/photoswipe.min.js',
+    'assets/js/lib/photoswipe-ui-default.min.js',
+    'assets/js/post.js'
+]);
+
+const js = parallel(jsMain, jsHome, jsPost);
 
 function lint(done) {
     pump([
@@ -83,6 +101,13 @@ function zipper(done) {
             '**',
             '!node_modules', '!node_modules/**',
             '!dist', '!dist/**',
+            '!docs', '!docs/**',
+            '!assets/css', '!assets/css/**',
+            '!assets/js', '!assets/js/**',
+            '!Makefile',
+            '!README.md',
+            '!renovate.json',
+            '!yarn.lock',
             '!yarn-error.log'
         ]),
         zip(filename),

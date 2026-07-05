@@ -1,0 +1,13 @@
+{{!< default}}
+
+<div class="content-area">
+    <main class="site-main">
+        {{#post}}
+            {{#if @page.show_title_and_feature_image}}
+                {{> content width="narrow"}}
+            {{else}}
+                {{> content no_header=true}}
+            {{/if}}
+        {{/post}}
+    </main>
+</div>

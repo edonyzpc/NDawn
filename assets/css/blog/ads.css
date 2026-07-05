@@ -1,0 +1,40 @@
+.post-ads {
+    display: grid;
+    gap: 2rem;
+    margin-top: 4.5rem;
+    margin-bottom: 5rem;
+}
+
+.post-ad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 250px;
+    overflow: hidden;
+}
+
+.post-ad .adsbygoogle {
+    display: block;
+    width: 100%;
+    max-width: 750px;
+    min-height: 250px;
+}
+
+.post-ad ins.adsbygoogle[data-ad-status="unfilled"] {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .post-ad,
+    .post-ad .adsbygoogle {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-ad,
+    .post-ad .adsbygoogle {
+        min-height: 100px;
+    }
+}

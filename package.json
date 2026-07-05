@@ -61,9 +61,6 @@
             "white_logo_for_dark_mode": {
                 "type": "image"
             },
-            "content_api_key_for_search": {
-                "type": "text"
-            },
             "show_featured_posts": {
                 "type": "boolean",
                 "default": true,
@@ -100,6 +97,8 @@
         "dev": "gulp",
         "test": "gscan .",
         "test:ci": "gscan --fatal --verbose .",
+        "test:zip": "gscan -z dist/ndawn.zip",
+        "test:zip:ci": "gscan -z --fatal --verbose dist/ndawn.zip",
         "lint": "gulp lint",
         "zip": "gulp zip"
     },
