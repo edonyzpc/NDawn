@@ -44,7 +44,7 @@ function css(done) {
             autoprefixer(),
             cssnano()
         ]),
-        dest('assets/built/', {sourcemaps: '.'}),
+        dest('assets/built/', {sourcemaps: '.', mode: 0o644}),
         livereload()
     ], handleError(done));
 }
@@ -55,7 +55,7 @@ function jsBundle(filename, files) {
             src(files, {sourcemaps: true}),
             concat(filename),
             uglify(),
-            dest('assets/built/', {sourcemaps: '.'}),
+            dest('assets/built/', {sourcemaps: '.', mode: 0o644}),
             livereload()
         ], handleError(done));
     };
