@@ -11,6 +11,7 @@
         "email": "edonyzpc@edony.ink",
         "url": "https://edony.ink"
     },
+    "packageManager": "yarn@1.22.22",
     "keywords": [
         "ghost",
         "theme",

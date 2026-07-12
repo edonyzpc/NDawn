@@ -1,16 +1,57 @@
-name: Test
+name: Theme CI
+
 on:
   pull_request:
-    types:
-      open
+    types: [opened, synchronize, reopened]
   push:
-    branches:
-      - master
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: theme-ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  test:
+  validate:
+    name: Validate theme
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/'))
+    if: github.event_name == 'push' || !startsWith(github.head_ref, 'renovate/')
     steps:
-      - uses: actions/checkout@v3
-      - run: yarn
-      - run: yarn test:ci
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
+      - name: Set up Yarn Classic
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check assets/js/main.js
+          node --check assets/js/home.js
+          node --check assets/js/post.js
+
+      - name: Validate source theme
+        run: yarn test:ci
+
+      - name: Build and validate theme package
+        run: |
+          yarn zip
+          yarn test:zip:ci
+
+      - name: Check generated assets and diff
+        run: |
+          git diff --exit-code -- assets/built
+          git diff --check
