@@ -37,44 +37,46 @@
 - [x] T008 实现并直接提交 F0a 顺序验证 workflow，上传保持显式关闭；首次 Linux mode-only Fail 后由 `3df5946` 修复，run `29179810177` PASS；依赖：T007；追踪：FR-004、NFR-013；回滚：恢复 T006 workflow predecessor。
 - [x] T009 验证 F0a `master` 直接提交运行且不上传；个人项目按 D-020 不创建 PR，因此 PR `opened/synchronize/reopened` 实跑为 N/A，事件配置保留；F0b 后负向矩阵转入 T011；依赖：T008；追踪：FR-004、SC-012。
 - [x] T010 取得 F0b 最小 packaging 修复和候选上传启用的批准；2026-07-12 用户同意直接 commit、无 PR；依赖：T009；追踪：FR-003。
-- [ ] T011 实现并直接提交 F0b：`dbc1e7b` / run `29179894534` 已完成同一 ZIP 验证、唯一 identity 与一次未激活上传，Ghost active 未变化；尚需 workflow/docs/specs-only 0 上传与受控失败矩阵后关闭；依赖：T010；追踪：FR-004、NFR-011、NFR-013、SC-012。
-- [ ] T012 核对最终 ZIP 不含 docs/specs/开发产物、候选 `active=false`、active theme 未变化，记录 F0 `Pass/Rollback` 并关闭；F0 未激活主题，豁免 Day 0/72h；依赖：T011；追踪：SC-012；回滚：恢复 F0b workflow predecessor，不激活或删除任何主题。
+- [x] T011 实现并直接提交 F0b：`dbc1e7b` / run `29179894534` 完成同一 ZIP 验证、唯一 identity 与一次未激活上传；docs/specs-only run `29180067547`、workflow-only run `29180120331` 均跳过 Upload；本地 corrupt/stale ZIP 与真实 F0a failure 覆盖失败路径；依赖：T010；追踪：FR-004、NFR-011、NFR-013、SC-012。
+- [x] T012 核对最终 ZIP 不含 docs/specs/开发产物、候选 `ndawn-dbc1e7b189ee` 显示 `Activate`、active theme 仍为 `ndawn-2026-07-05-13-03`，记录 F0 `Accept` 并关闭；F0 未激活主题，豁免 Day 0/72h；依赖：T011；追踪：SC-012；回滚：恢复 F0b workflow predecessor，不激活或删除任何主题。
+
+> 后续事件：用户在 F0 关闭后手动激活 `ndawn-dbc1e7b189ee`。2026-07-12 12:56 SGT 确认 Active、全部 `@custom` 保真且关键预览正常；该候选仅含 packaging/identity 变化，不代表 SEO/性能功能发布。自动化 public smoke 因执行环境联网限制转入 P0 补验。
 
 ## Phase P0 — Baseline & Recovery Pack
 
 **Goal**：建立不依赖当前混合工作区的基线、测量协议和恢复材料。
 
-- [ ] T013 [P] 固定首页、普通/慢/图片/代码文章、Page、分页、Tag、Author 和三个 Custom Post URL；依赖：T012；追踪：FR-001、SC-001。
-- [ ] T014 [P] 固定 Chrome/Safari、手机/桌面/平板、网络、冷/热缓存、区域、匿名/免费/付费账号和内容权限矩阵；依赖：T012；追踪：FR-001、NFR-001、NFR-003、SC-001。
-- [ ] T015 [P] 记录已安装 active theme 的名称、版本、Active 状态、记录时间、重新 Activate 路径及可确认的源码 SHA；明确 predecessor 保持安装且不得删除，并快照全部当前 `@custom` 值和关键渲染；旧主题 ZIP 下载与 checksum 为 N/A；依赖：T012；追踪：FR-001、SC-002、SC-003。
-- [ ] T016 [P] 导出 Ghost Content/Settings、Site/Page Injection、全部非空 Page/Post Injection、`routes.yaml`、`redirects.yaml`；依赖：T012；追踪：FR-001、NFR-009、SC-002。
-- [ ] T017 [P] 保存 Cloudflare DNS、Cache、WAF、Rate Limit、Transform、Zaraz、RUM、robots、Crawler Hints、SSL 和规则顺序脱敏快照；依赖：T012；追踪：FR-001、NFR-007、NFR-009、SC-002。
-- [ ] T018 [P] 保存 GA4、Ghost Analytics、RUM、AdSense 7/28 天基线及各自样本量；依赖：T013、T014；追踪：FR-001、SC-004、SC-005、SC-008。
-- [ ] T019 [P] 保存 canonical、robots、Sitemap、RSS、OG/X、JSON-LD、代表性 alt 和响应头基线；依赖：T013；追踪：FR-001、NFR-004、SC-006。
-- [ ] T020 [P] 按固定协议对三个核心页面每组合运行至少 5 次，保存中位数、真实 LCP、CLS、瀑布、主线程和 Console；依赖：T013、T014；追踪：NFR-001、NFR-002、SC-007。
-- [ ] T021 定义生产 5xx 的唯一数据源、时区、Host/Path/Method、最低样本；分子固定为排除静态/Bot/监控后的 500–599，分母为同范围有效请求；基线为 0 时只用批准的绝对百分点阈值，无法满足时降级为观察项；依赖：T014、T017；追踪：G-007、NFR-005。
-- [ ] T022 锁定 G-007、G-003 的参数确认方法及“达成/未达成/样本不足”格式；依赖：T018、T020、T021；追踪：G-003、G-007、NFR-002、NFR-005。
-- [ ] T023 建立干净可重建源码基线、release ledger、observation registry 与 predecessor/rollback-forward 模板；依赖：T015、T016、T017；追踪：FR-003、NFR-007、NFR-008。
-- [ ] T024 执行完整产品 Smoke、主题设置保真检查和离线恢复演练并关闭 P0；依赖：T013、T014、T015、T016、T017、T018、T019、T020、T021、T022、T023；追踪：FR-001、FR-017、SC-001、SC-002、SC-003。
+- [x] T013 [P] 固定首页、普通/慢/图片/代码文章、Page、分页、Tag、Author、Custom Narrow 公开 URL；Full/No-image 无公开样本，按 D-019 使用同一专用未发布 Draft 依次 Preview，不虚构 URL；依赖：T012；追踪：FR-001、SC-001。
+- [x] T014 [P] 固定 Chrome/Safari、手机/桌面/平板、网络、冷/热缓存、区域、匿名/免费/付费账号和内容权限矩阵；无真实账号时 Ghost Preview 只覆盖模板并登记外部缺口；依赖：T012；追踪：FR-001、NFR-001、NFR-003、SC-001。
+- [x] T015 [P] 记录 active `ndawn-dbc1e7b189ee`（v2.2.0、commit `dbc1e7b`、ZIP SHA-256 `bbed2724…c8a8`）、首次确认时间、Dashboard Activate 路径、全部 `@custom` 与关键预览；原 `ndawn-2026-07-05-13-03` 保持安装且不得删除，旧 ZIP 下载与 checksum 为 N/A；依赖：T012；追踪：FR-001、SC-002、SC-003。
+- [x] T016 [P] 导出 Ghost Content/Settings、Site/Page Injection、全部非空 Page/Post Injection、`routes.yaml`、`redirects.yaml`；原始材料保存于 gitignored `.private`，仓库只记录脱敏摘要与 checksum；依赖：T012；追踪：FR-001、NFR-009、SC-002。
+- [x] T017 [P] 保存 Cloudflare DNS、Cache、WAF、Rate Limit、Transform、Zaraz、RUM、robots、Crawler Hints、SSL 和规则顺序脱敏快照；激活后新静态版本键 `v=363f476934` 连续 HIT，未执行 Purge 或配置写入；依赖：T012；追踪：FR-001、NFR-007、NFR-009、SC-002。
+- [x] T018 [P] 保存平台可用窗口及样本量：GA4/AdSense 7/28 天、Ghost 30 天、Cloudflare RUM 24 小时；RUM 样本不足且范围污染按已批准口径记录 `Insufficient`，不伪造统一窗口；依赖：T013、T014；追踪：FR-001、SC-004、SC-005、SC-008。
+- [x] T019 [P] 保存 canonical、robots、Sitemap、RSS、OG/X、JSON-LD、代表性 alt 和响应头基线；`/page/2/` 当前仅输出 canonical，代表图片文章正文 5 张图 alt 为空并登记为内容缺口；依赖：T013；追踪：FR-001、NFR-004、SC-006。
+- [x] T020 [P] 按固定协议完成 60 个无警告有效样本；6 个可能不完整报告保留并替换，保存中位数、LCP 元素、CLS、瀑布、主线程和 Console；依赖：T013、T014；追踪：NFR-001、NFR-002、SC-007。
+- [x] T021 定义生产 5xx 的唯一数据源、时区、Host/Path/Method、最低样本；当前无可靠 Host 级数据源，用户已批准降级为观察项，未来日志口径已记录；依赖：T014、T017；追踪：G-007、NFR-005。
+- [x] T022 锁定 G-007、G-003 参数及“达成/未达成/样本不足”格式；GA4/Ghost/AdSense 有效窗口已保存，RUM/生产 5xx 数据不足按批准方案记观察项；依赖：T018、T020、T021；追踪：G-003、G-007、NFR-002、NFR-005。
+- [x] T023 建立干净可重建源码基线、release ledger、observation registry 与 predecessor/rollback-forward 模板；基线与独立候选 commit object 已核验，混合 authoring WIP 不作为生产候选；依赖：T015、T016、T017；追踪：FR-003、NFR-007、NFR-008。
+- [x] T024 完成公开脚本、Chrome 桌面付费会员、匿名移动/平板、Safari Desktop/390×844/768×1024、Search/Portal/Theme/TOC/PhotoSwipe/Comments/Ads Smoke 与恢复演练；Checkout、免费会员专用测试身份按 D-031 记录为已接受外部缺口而非 Pass，P0 以 `Closed with accepted external gaps` 关闭；依赖：T013、T014、T015、T016、T017、T018、T019、T020、T021、T022、T023；追踪：FR-001、FR-017、SC-001、SC-002、SC-003。
 
 ## Phase P1 — Integration Ownership Audit
 
-- [ ] T025 [P] 建立 Portal、Search、Ghost Analytics、GA4、RUM、Fonts、Prism、Ghost Comments、Giscus、Ads 的 owner/注入层/页面范围/时机矩阵；依赖：T016、T017；追踪：FR-002、NFR-010。
-- [ ] T026 [P] 审计全部 Site/Page Injection 的 jQuery 依赖和执行顺序；依赖：T016；追踪：FR-002、FR-005、FR-009。
-- [ ] T027 对每个 owner 判定 Pass/Block，并映射到 R0/R2/R3b/R5/R6 入口门；依赖：T025、T026；追踪：FR-002、NFR-010。
-- [ ] T028 在 P0 关闭后冻结当前混合 WIP，记录每单元允许文件、禁止项和 predecessor；依赖：T024、T027；追踪：FR-003、NFR-008、SC-011。
-- [ ] T029 关闭 Phase P1，确认任何 Block 都不会被后续任务依赖关系绕过；依赖：T028；追踪：FR-002、SC-011。
+- [x] T025 [P] 建立 Portal、Search、Ghost Analytics、GA4、RUM、Fonts、Prism、Ghost Comments、Giscus、Ads 的 owner/注入层/页面范围/时机矩阵；依赖：T016、T017；追踪：FR-002、NFR-010。
+- [x] T026 [P] 审计全部 Site/Page Injection 的 jQuery 依赖和执行顺序；68 条非空原始 Injection 的 jQuery 命中为 0；依赖：T016；追踪：FR-002、FR-005、FR-009。
+- [x] T027 对每个 owner 判定 Pass/Block，并映射到 R0/R2/R3b/R5/R6 入口门；R0 No-op、R2 owner/metric Pass、R3b sequence block、R5/R6 execute audit；依赖：T025、T026；追踪：FR-002、NFR-010。
+- [x] T028 在 P0 关闭后冻结当前混合 WIP；当前 authoring 分支继续明确禁止直接发布，`unit-scope-matrix.md` 已记录每单元允许文件、禁止项和 predecessor，9 个独立候选 worktree 复核为 clean；依赖：T024、T027；追踪：FR-003、NFR-008、SC-011。
+- [x] T029 关闭 Phase P1；owner matrix 与入口门已映射，R0 走 No-op、R3b/R5/R6 的 sequence block 保留，任何 Block 都没有被后续依赖绕过；依赖：T028；追踪：FR-002、SC-011。
 
 ## Phase R0 — Injection Compatibility [US1, US3, US5]
 
-- [ ] T030 [US1] 从 P0 生成只含 Post/Page jQuery 迁移的 Injection diff；依赖：T029 且 R0 owner 门 Pass；追踪：FR-005。
-- [ ] T031 [US1] 实现原生 API 迁移，不改变 Analytics、Fonts、Prism、Comments 或 Ads owner；依赖：T030；追踪：FR-005、NFR-010。
-- [ ] T032 [US3] 用当前 active theme 完成 Injection 与完整产品 Smoke；依赖：T031；追踪：FR-017、SC-003。
-- [ ] T033 [US1] 保存 R0 predecessor Injection/checksum 并取得修改批准；依赖：T032；追踪：FR-003、NFR-008。
-- [ ] T034 [US1] 仅应用 R0 Injection diff并记录生效 Day 0；依赖：T033；追踪：FR-005、NFR-007。
-- [ ] T035 [US3] 完成 R0 立即功能、Console、Analytics、Ads 与 SEO 检查；依赖：T034；追踪：FR-017、SC-003、SC-004。
-- [ ] T036 [US1] 完成 R0 72 小时 G-007 门；依赖：T035；追踪：FR-018、NFR-005、SC-011。
-- [ ] T037 记录 R0 `Accept/Rollback` 并关闭阶段；失败时只恢复 R0 predecessor；依赖：T036；追踪：NFR-008、SC-002、SC-011。
+- [x] T030 [US1] 全量 Ghost Export 生成 R0 diff 为空：68 条非空 Post/Page Injection 的 jQuery 命中为 0；依赖：T029 且 R0 owner 门 Pass；追踪：FR-005。
+- [x] T031 [US1] No-op 分支无原生 API 迁移，Analytics、Fonts、Prism、Comments 与 Ads owner 均未改变；依赖：T030；追踪：FR-005、NFR-010。
+- [x] T032 [US3] 当前 active theme 的公开脚本与完整产品 Smoke 已通过，证明无需 R0 Injection 改动；依赖：T031；追踪：FR-017、SC-003。
+- [x] T033 [US1] R0 predecessor Site/Page/Post Injection checksum 已保存在恢复快照；No-op 分支修改批准为 N/A；依赖：T032；追踪：FR-003、NFR-008。
+- [x] T034 [US1] R0 未应用任何 Injection diff，配置 Day 0 为 N/A；依赖：T033；追踪：FR-005、NFR-007。
+- [x] T035 [US3] 复用同一 predecessor 的 P0 立即功能、Console、Analytics、Ads 与 SEO 证据；No-op 未产生新回归面；依赖：T034；追踪：FR-017、SC-003、SC-004。
+- [x] T036 [US1] R0 No-op 没有生产变更或 Day 0，72 小时 G-007 门为 N/A；依赖：T035；追踪：FR-018、NFR-005、SC-011。
+- [x] T037 记录 R0 `No-op` 并关闭阶段；没有配置写入、回滚或 rollback-forward；依赖：T036；追踪：NFR-008、SC-002、SC-011。
 
 ## Phase R1 — Native JS + TOC [US1, US2, US3]
 
@@ -151,8 +153,8 @@
 
 ## Phase R5.x — Fonts [US2, US3]
 
-- [ ] T093 [US2] 审计主题/Site/Page Injection 字体来源、字重、preload 和重复请求；依赖：T092；追踪：FR-011。
-- [ ] T094 [US2] 验证自托管许可、子集、目录与 ZIP；选择单候选或 `No-op`；依赖：T093；追踪：FR-011。
+- [x] T093 [US2] 审计主题/Site/Page Injection 字体来源、字重、preload、重复请求及 LXGW 历史选择；active/direct predecessor/全部 `ndawn-*` 均未选择 LXGW，线上与 ZIP 无请求；依赖：T092；追踪：G-010、FR-011。
+- [x] T094 [US2] 执行 G-010，用户已批准删除 LXGW 选项/死代码/旧 WOFF2并保留 Modern/Elegant；R5a 独立候选 commit `a5a07c7` 已通过 source/built/ZIP 检查；依赖：T093；追踪：G-010、FR-011。
 - [ ] T095 [US2] Execute 分支 Precheck：执行 G-008，锁定 predecessor和视觉回退；No-op 分支记录 N/A；依赖：T094；追踪：G-008、FR-011。
 - [ ] T096 [US2] Execute 分支实现一个字体来源/字重策略并验证 Network、fallback、视觉和包内容；No-op 分支记录 N/A；依赖：T095；追踪：FR-011、NFR-004。
 - [ ] T097 [US1] 取得候选上传与激活批准或记录 N/A；依赖：T096；追踪：FR-003。
@@ -166,7 +168,7 @@
 
 - [ ] T103 [US2] 确认 Footer Injection owner/选择器，选择 Execute 或 `No-op/Separate-Spec`；依赖：T102；追踪：FR-012。
 - [ ] T104 [US2] Execute Precheck：执行 G-008，保存 R6 predecessor Injection/checksum，绝不使用 P0；No-op/Separate-Spec 分支记录 N/A；依赖：T103；追踪：G-008、NFR-008。
-- [ ] T105 [US2] Execute 分支生成 DOM 条件加载 diff并验证普通页不加载、代码页正常；其他分支记录 N/A；依赖：T104；追踪：FR-012。
+- [ ] T105 [US2] Execute 分支用当前 Export 生成 59 篇 Post Injection allowlist diff；验证普通页不加载、代码页由 Site Footer 条件加载且 5 个混合页保留 KaTeX/MathJax/Mermaid；其他分支记录 N/A；依赖：T104；追踪：FR-012。
 - [ ] T106 [US1] 取得 R6 Injection 修改批准或记录 N/A；依赖：T105；追踪：FR-003。
 - [ ] T107 [US1] 应用 R6 diff并记录 Day 0或记录 N/A；依赖：T106；追踪：FR-012。
 - [ ] T108 [US3] 完成立即检查或记录 N/A；依赖：T107；追踪：FR-017。
@@ -195,7 +197,7 @@
 
 ## Phase R7c — Ghost SEO Content [US4]
 
-- [ ] T128 [US4] 依据 Search Console/GA4 盘点 Tag description、Post excerpt、Feature image alt 候选；依赖：T127；追踪：G-009、FR-013。
+- [ ] T128 [US4] 依据 Search Console/GA4 盘点 Tag description、Post excerpt、Feature image alt 与获批重点文章的正文 Image Card alt 候选；装饰图保持空值；依赖：T127；追踪：G-009、FR-013。
 - [ ] T129 [US4] 执行 G-009，选择一个 allowlist 批次或记录 `No-op`；依赖：T128；追踪：G-009、FR-013。
 - [ ] T130 [US4] Execute Precheck：导出原字段值、URL 和内容 predecessor；No-op 分支记录 N/A；依赖：T129；追踪：NFR-008。
 - [ ] T131 [US4] Execute 分支离线拟定并审查准确文本，禁止关键词堆砌；No-op 分支记录 N/A；依赖：T130；追踪：FR-013、NFR-004。

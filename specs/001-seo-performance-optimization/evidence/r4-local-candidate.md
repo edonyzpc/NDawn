@@ -1,9 +1,11 @@
 # R4 首页 Featured LCP 候选
 
-> 状态：`EVIDENCE-BASED LOCAL CANDIDATE / NOT MEASURED / NOT RELEASED`  
+> 状态：`ISOLATED LOCAL CANDIDATE / NOT MEASURED / NOT RELEASED`
 > G-008：`No`（只修改首页 Featured 图片，不涉及 Post、Ads、Injection 或 Cache）
 
-当前本地候选 ZIP SHA-256：`5b621cab988e6d9b43b22ab1db86ee057fb96be516b9e41b874ed3884a4c2b1c`
+- 基线：R3b local commit `27051d2`；生产发布时使用 R3b accepted head。
+- 分支/提交：`codex/r4-featured-lcp` / `1362b72 perf(featured): expose lazy images to the browser`。
+- 本地验证 ZIP：`ndawn-r4-local`，SHA-256 `923168ba098835d280088e951e23db4ca7a1d2d63b4c74c9e017a8a93a398ab0`；未上传。
 
 ## 证据
 
@@ -26,7 +28,8 @@
 ## 本地门
 
 - GScan fatal：PASS。
-- semantic validator：PASS，禁止 Featured 重新引入 `data-srcset` / lazysizes placeholder。
+- 独立 diff 仅包含 `partials/featured.hbs` 非首图 6 组属性替换；首图 priority、标题和 ARIA 均未变化。
+- ZIP fatal GScan、allowlist/identity/唯一 ZIP、`git diff --check`：PASS。
 - 尚未执行固定协议下 5 次中位数对比，因此不能记录 `Accept` 或声称 LCP 已改善。
 
 ## 后续

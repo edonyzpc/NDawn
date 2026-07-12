@@ -110,7 +110,7 @@ CI/CD 验证与未激活候选上传门
 
 ### 4.3 主题与本地 WIP
 
-当前工作区已有 11 个未提交主题文件，不能直接视为一个可发布单元。
+截至 2026-07-12，当前 authoring 工作区仍是多单元聚合 WIP，不能直接视为一个可发布单元；P0/P1 已关闭，R0 因全量 Export 中 68 条非空 Injection 的 jQuery 命中为 0 而以 No-op 退出。R1–R5b、R7a/R7b 已形成独立 clean worktree/commit，生产时仍必须按 accepted predecessor 顺序重建。
 
 实际修改范围包括：
 
@@ -363,6 +363,8 @@ G-007 默认要求固定 Smoke 100% 通过、可复现新增 Console 错误为 0
 
 回滚：R0 仍为当前 Injection head 时恢复 R0 直接 predecessor，不默认恢复阶段 0 快照；不需要同时回滚主题。
 
+实际结果（2026-07-12）：全量 Ghost Export 证明 Post/Page Injection 无 jQuery 依赖，R0 diff 为空；未执行 Ghost Save、未建立配置 Day 0，72 小时门与回滚均为 N/A，阶段以 `No-op` 关闭。
+
 #### R1：Native JS 行为等价重构与 TOC 修复
 
 **修改范围**：`assets/js/main.js`、`assets/js/post.js` 及对应 built 产物。
@@ -585,7 +587,7 @@ H1 不是排名保证，也不是控制站点名称的主要信号，没有直�
 
 #### 4.5 Ghost SEO 内容独立发布
 
-- 依据 Search Console、GA4 与内容重要性形成 G-009 allowlist。
+- 依据 Search Console、GA4 与内容重要性形成 G-009 allowlist；正文 Image Card alt 只处理获批重点文章中的信息图片，逐图确认，装饰图保持空值。
 - 每批只包含明确的 Tag description、Post excerpt 或 Feature image alt 字段；保存 URL、原值、拟定值和恢复证据。
 - 文字准确、自然，不做关键词堆砌；有意义图片的 alt 以可访问性和内容描述为准。
 - 与主题语义、redirects、Injection 和 Cloudflare 分日发布；无充分候选时记录 `No-op`。
@@ -728,7 +730,7 @@ DNS-only 不在本计划执行范围内。只有出现以下任一条件并取�
 | R5.x Fonts | 单一字体来源或字重策略 | Prism、SEO、Cloudflare | 72h；`No-op/Accept/Rollback/Iterate/Complete-unmet` |
 | R6 Prism | 唯一所有者与条件加载 | Fonts、SEO、Cloudflare | 72h；只恢复 R6 predecessor，绝不恢复 P0 Injection |
 | R7.x SEO 语义 | H1、标题链接、heading、分页、可选摘要 | JS 架构、redirects、Cloudflare | 72h；直接 predecessor 或 rollback-forward |
-| R7.x SEO 内容 | G-009 allowlist 字段 | 主题、redirects、Cloudflare | 恢复该批原字段或字段级 rollback-forward |
+| R7.x SEO 内容 | G-009 allowlist 字段及获批正文 Image Card alt | 主题、redirects、Cloudflare | 恢复该批原字段或字段级 rollback-forward |
 | R8 Redirects | 精确 301 与对应验证 | 主题、Injection、Cloudflare | 恢复 R8 predecessor `redirects.yaml` |
 | R9.x CF Cache | 单一 Cache Rule 或严格同类组 | 主题、Injection、WAF | 恢复当前规则 predecessor；所有 Cache 操作只在 R9 |
 | R10.x CF Security | 单一 WAF/Rate Limit/Transform 修复 | Cache、主题、DNS | 恢复当前规则 predecessor；Cache 发现退回 R9 |
@@ -789,7 +791,7 @@ F0 的“最终同一 ZIP、唯一候选 identity、active theme 不变”属于
 - [ ] 已确认 Portal、Search、统计、评论、Stripe、两个广告位等产品功能完整保留。
 - [ ] 已确认 `www.edony.ink` 保持 Cloudflare Proxied。
 - [ ] 已理解并接受 Proxied 偏离 Ghost 官方推荐拓扑的缓存、证书与支持风险。
-- [ ] 已确认阶段 0 包含 Ghost Export、全局及页面级 Injection 完整备份。
+- [x] 已确认并完成阶段 0 Ghost Export、全局及页面级 Injection、routes、redirects 完整备份（原始材料仅存 gitignored `.private`）。
 - [ ] 已确认当前 11 个主题 WIP 文件不能作为一个 ZIP 直接上线。
 - [x] 已确认 `master` 自动验证并上传未激活候选，Ghost Dashboard 手动激活是唯一生产主题门，不增加 GitHub 人工审批。
 - [ ] 已验证 F0 的最终同一 ZIP、checksum、唯一候选 identity、开发产物排除和 active theme 不变。

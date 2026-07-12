@@ -202,7 +202,7 @@ docs-only push master
 | Ghost 外部状态 | Injection、routes、redirects、Analytics | R0、R6、R8 |
 | Cloudflare 外部状态 | Cache/WAF/Transform/Zaraz/RUM/robots | R9.x、R10.x |
 
-字体风险：`assets/css/fonts/LXGWBright-Medium.woff2` 体积较大，而 ZIP 排除 `assets/css/**`。R5.x 若选择自托管，必须设计可打包路径或明确修改 zipper；不能直接启用当前路径。
+字体风险：`assets/css/fonts/LXGWBright-Medium.woff2` 体积较大、来源/OFL 未绑定且从未进入 ZIP。全量 Export 证明 active/direct predecessor 及所有 `ndawn-*` 历史设置均未选择 LXGW；R5.x 通过 G-010 后可删除该失效选项、死代码与二进制，同时保留 Modern/Elegant。
 
 ## Implementation Phases
 
@@ -284,7 +284,7 @@ R4.x、R5.x、R6、R9.x、R10.x 审计后都必须支持四种显式出口：`�
 | 单元 | 内容 | 回滚 |
 | --- | --- | --- |
 | R7.x SEO semantics | 标题文字链接、heading、分页；H1/摘要需视觉门 | 当前主题 head 时直接 predecessor；后续已叠加时 rollback-forward |
-| R7.x SEO content | 重点 Tag 描述、文章 excerpt、Feature image alt；逐组独立批准 | 当前字段 head 时恢复该批原值；后续已叠加时字段级 rollback-forward |
+| R7.x SEO content | 重点 Tag 描述、文章 excerpt、Feature image alt、获批重点文章的正文 Image Card alt；逐字段/逐图独立批准 | 当前字段 head 时恢复该批原值；后续已叠加时字段级 rollback-forward |
 | R8 Redirects | 有证据的精确 301，一跳到 canonical | 当前 redirects head 时恢复 R8 predecessor；后续已叠加时配置 rollback-forward |
 
 ### P5 — Unified Acceptance

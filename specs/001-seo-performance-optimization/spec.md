@@ -30,21 +30,33 @@
 | D-015 | LCP 约 20%、28 天 RUM CWV 与 Search Console 趋势是阶段目标，不作为单次发布硬门；必须报告“达成 / 未达成 / 样本不足”，但不得为追分夹带未计划修改。 |
 | D-016 | 不下载当前 active theme ZIP 作为备份。本项目不删除 Ghost 已安装主题；直接 predecessor 必须保留，主题回归时在 Dashboard 直接重新 Activate。候选 ZIP 仍须保存 checksum，源码历史仍须可重建。 |
 | D-017 | 首页采用可见站点标题 H1，并为最新 5 篇文章增加两行短摘要；H1 与摘要仍作为 R7a/R7b 两个独立发布单元。 |
-| D-018 | 接受主题成为字体唯一 owner，同时完整保留 Modern sans-serif、Elegant serif、LXGW Bright 三个 `@custom` 选项；Site Header 字体清理仍作为独立线上配置单元执行。 |
+| D-018 | 接受主题成为字体唯一 owner；Modern sans-serif、Elegant serif 必须保留。2026-07-12 用户通过 G-010，批准删除未使用的 LXGW Bright 选项、死代码、fallback 与旧 WOFF2；Site Header 字体清理仍作为独立线上配置单元执行。 |
 | D-019 | 允许在 Ghost 创建一个不发布的临时 Draft，依次验证 Custom Full 与 Custom No-image 模板；Draft 不公开、不删除。 |
 | D-020 | 个人项目不创建 PR；按发布单元创建独立 commit并直接提交。`master` push 继续自动上传未激活候选，Ghost Dashboard 手动 Activate 仍是唯一生产切换。 |
+| D-021 | 正文 Image Card alt 与 Feature image alt 纳入 G-009，但第一批只处理 Search Console 重点文章中确有信息价值的图片；逐图确认文本，装饰图不强行写入描述，其余历史图片进入 backlog。Feature image 当前的标题 fallback 暂不改变，避免未审计的有意义图片失去可访问名称。 |
+| D-022 | R8 对 Search Console 中 `/site`、`/my-pkm/，`、`/D` 三个 404 全部采用 `No-op`，不建立无明确来源或 successor 的猜测性 redirect；按任务依赖在 R7c 关闭后正式记录退出。 |
+| D-023 | 当前没有可按 `www.edony.ink` Host/Path/Method 可靠过滤的生产日志；生产 5xx 比率降级为观察项，不阻断发布。G-007 硬门继续使用固定 Smoke、核心 URL、Console、LCP 与 CLS。 |
+| D-024 | R5b 采用方案 A：主题按 Modern/Elegant 条件加载 Google Fonts，Modern/Modern 只加载 Barlow，任一 Elegant 加载 Barlow + Alike，并移除强制 Barlow；R5c 仍作为独立 Site Header 配置单元。 |
+| D-025 | G-009 第一批 2 张 Lexical 正文 Image Card alt、4 张 Feature image alt 与 1 个 meta description 的精确文本全部批准；`/details-of-obsidian-ui/` 两张 Mobiledoc 图片本轮 `No-op`，不触发整篇格式迁移。 |
+| D-026 | R10a 对既有 Rate Limit 采用博客范围 `No-op`：不修改、不禁用、不删除、不升级，应用级限速另列 backlog。 |
+| D-027 | R10b 批准“禁用但不删除 `Allow Gemini AI`”的设计及重新 Enable 回滚路径；实际 Cloudflare Save 仍须等待 R10 顺序门与执行批准。 |
+| D-028 | R10c 批准只对 `www.edony.ink` 应用 Full (strict) 的 Configuration Rule 设计；全 Zone 保持 Full，实际 Cloudflare Save 仍须等待 R10 顺序门与执行批准。 |
+| D-029 | R10d `Webhook Header` 暂不改动：不轮换凭据、不修改或禁用规则；已确认的过宽认证 Header 注入风险保留在安全 backlog，未来重新启动时必须先确认 Bot/backend/IP owner 与迁移窗口。 |
+| D-030 | R10e `R2-CORS` 在本博客项目中采用 `No-op`：保留 `img.edony.ink` 与 `memos.edony.ink` 现状，不修改、不禁用、不删除。 |
+| D-031 | 2026-07-12 用户明确接受“免费会员真实会话”和“到达 Stripe Checkout”缺少专用测试身份，作为 P0 外部缺口关闭 P0；两项均不得写成 Pass。该例外只解除不触及会员身份/缓存隔离的后续单元入口，不豁免 R9 的匿名/免费/付费 A→B→C→A 身份隔离硬门。 |
 
 ### 已定义但需阶段执行时确认的决策门
 
 - **G-001 H1 视觉门**：已通过，R7a 上线可见站点标题 H1。
 - **G-002 摘要视觉门**：已通过，R7b 为最新 5 篇增加两行短摘要。
-- **G-003 广告参数门**：P0 后锁定触发距离、有效样本和收益回滚线。
+- **G-003 广告参数门**：已通过。Day 7 双窗口各至少 100 PV/20 impressions；Day 28 双窗口各至少 500 PV/100 impressions；样本充足时仅当 `Impressions / 100 PV` 与 Page RPM 同时下降超过 20% 才进入人工收益回滚判定。广告不显示、重复请求、Console error、布局坍塌或 Slot 数量/位置错误仍立即技术回滚。
 - **G-004 Cloudflare 规则门**：每条 Cache/WAF/Transform 修改前确认表达式、命中范围和回滚动作。
 - **G-005 安全清理门**：Cache 正确性稳定后再确认历史安全规则处理顺序。
 - **G-006 DNS 应急门**：仅在出现可重复的性能、刷新、证书或 Ghost 支持证据时另立 DNS-only 方案。
 - **G-007 稳定性阈值门**：P0 锁定测量工具、版本、区域、设备、网络、缓存状态和前一已接受基线。默认硬门为固定 Smoke 100% 通过、可复现新增 Console 错误为 0、核心 URL 脚本化检查中的意外 4xx/5xx 为 0、实验室 CLS 中位数绝对回退不超过 0.02、核心页面 LCP 中位数回退不超过 `max(10%, 250ms)`；P0 可依据重复测量噪声提出替代值，但必须在 R0 前单独批准。生产 5xx、INP 与 RUM 在没有可靠数据源和足够样本时只作观察项，不得伪装成硬门。
 - **G-008 Ads 影响门**：R2 激活后至 Day 28 结束前，每个候选必须在发布前判定是否修改 `post.js`、Ads CSS/partial、Post family 模板布局、共享 Injection 或会影响广告请求的 Cache/WAF；判定为“影响 Ads”时必须等待对应收益结论或另立 R2.x 并重置 Day 0，判定为“不影响”时可在 72 小时技术门后继续；无法确认时一律按“影响 Ads”处理。
-- **G-009 SEO 内容范围门**：根据 Search Console、GA4 与内容重要性形成明确 allowlist；在 Ghost Dashboard 修改前确认具体 Tag/Post、字段、原值和回滚证据，不进行无依据批量改写。
+- **G-009 SEO 内容范围门**：根据 Search Console、GA4 与内容重要性形成明确 allowlist；在 Ghost Dashboard 修改前确认具体 Tag/Post、字段、原值和回滚证据，不进行无依据批量改写。正文 Image Card alt 与 Feature image alt 只进入已批准的重点文章小批次，逐图核对语义；装饰性正文图保持空值，装饰性 Feature image 不新增字段值且保留现有安全 fallback。
+- **G-010 字体删除门**：已通过。active `@custom`、direct predecessor 与全部 `ndawn-*` 历史设置均未选择 LXGW；用户已批准删除 `package.json` 选项、CSS fallback/注释和旧 WOFF2。正式候选仍须证明 source/built/ZIP 无引用并保留 Modern/Elegant。
 
 ## User Scenarios & Testing
 
@@ -116,7 +128,7 @@
 2. **Given** 搜索爬虫访问站点，**When** 请求 `robots.txt`、Sitemap 或 RSS，**Then** 返回 200 且没有意外 `noindex` 或 `Disallow: /`。
 3. **Given** 首页文章卡片，**When** 键盘或辅助技术导航，**Then** 标题是真实文字链接，overlay 不产生重复 Tab 焦点。
 4. **Given** 一个获准保留的历史 URL，**When** 访问该 URL，**Then** 一次 301 到最终 canonical，无 chain、loop 或路由误伤。
-5. **Given** G-009 批准一组重点内容，**When** 修改 Tag description、Post excerpt 或 Feature image alt，**Then** 只修改 allowlist 内字段、保留原值，并与主题语义、redirects 和 Cloudflare 分批发布。
+5. **Given** G-009 批准一组重点内容，**When** 修改 Tag description、Post excerpt、Feature image alt 或重点文章的正文 Image Card alt，**Then** 只修改 allowlist 内字段、保留原值，并与主题语义、redirects 和 Cloudflare 分批发布。
 
 ---
 
@@ -193,7 +205,7 @@
 - **FR-010 — R4 LCP**：MUST 按模板识别真实 LCP；每个发布单元 MUST 只优化一个模板中的一个已确认候选。
 - **FR-011 — R5 Fonts**：MUST 审计主题、Site Injection 与 Page Injection 字体来源并消除重复；自托管仅可在许可、子集、目录复制和 ZIP 路径确认后实施。
 - **FR-012 — R6 Prism**：Prism MUST 保持代码高亮且无需点击；默认由 Footer Injection 作为唯一所有者，通过包含 Ghost Code Card 的 DOM 检测按需加载。
-- **FR-013 — R7 SEO**：主题语义单元中，卡片标题 MUST 为真实文字链接且不得产生重复焦点，heading、分页与已批准可见 H1 MUST 可理解，主题不得重复 Ghost SEO 元数据；Tag 描述、重点文章 excerpt 与 Feature image alt MUST 只对 G-009 allowlist 作为独立内容单元逐组批准，不与主题语义同日发布。
+- **FR-013 — R7 SEO**：主题语义单元中，卡片标题 MUST 为真实文字链接且不得产生重复焦点，heading、分页与已批准可见 H1 MUST 可理解，主题不得重复 Ghost SEO 元数据；Tag 描述、重点文章 excerpt、Feature image alt 与已批准重点文章的正文 Image Card alt MUST 只对 G-009 allowlist 作为独立内容单元逐组批准，不与主题语义同日发布；装饰性正文图 MUST 保持空 alt，装饰性 Feature image MUST 不新增无意义字段值。
 - **FR-014 — R8 Redirects**：只可添加有证据的精确 301；旧 URL MUST 一跳到最终 canonical，无 chain、loop 或路由误伤。
 - **FR-015 — R9 Cloudflare Cache**：`www` MUST 保持 Proxied；个性化 HTML 不得出现共享 `HIT/STALE/UPDATING`，可根据原因接受 `DYNAMIC/BYPASS/MISS`；MUST 使用匿名/免费/付费独立 profile 的 A→B→C→A 内容隔离矩阵验证；动态路径 MUST 绕过缓存；禁止 `Cache Everything`，静态缓存 MUST 尊重上游语义并支持精确 Purge。所有 Cache Rule 新增、修改、禁用、删除和顺序调整均只属于 R9.x。
 - **FR-016 — R10 Cloudflare Security**：每次只修改一条规则或一个同类规则组；MUST 保存旧表达式、动作与优先级；Verified Bots 不得被误拦；规则 MUST 先 Log/观察再强制。
@@ -251,7 +263,7 @@
 - 当前 RUM 样本较小，约 3.67s LCP P75 和约 5.0s Page Load 仅为方向信号。
 - 当前流程由 `master` push 自动上传版本化候选主题，再由用户在 Ghost Dashboard 手动激活；F0 会重新证明上传结果 `active=false` 且不会覆盖当前 active theme。
 - Ghost 继续负责 canonical、Open Graph、X Card、Sitemap、JSON-LD、Schema 与 meta fallback。
-- P0 可取得匿名、免费会员、付费会员及不同内容权限的测试账号。
+- P0 已取得匿名与付费会员证据；免费会员真实会话及 Checkout 因缺少专用测试身份按 D-031 作为已接受外部缺口。任何依赖跨身份缓存隔离的阶段仍必须补齐真实免费会员证据。
 - GA4 当前由 Zaraz 承载，RUM 当前为自动注入；P1 会验证而非假设没有重复。
 - 广告流量不足时，7 天数据不用于最终判断，观察期延长至 14/28 天；观察不冻结 G-008 判定为“不影响 Ads”的单元。
 - 每个主题单元的 Day 0 是 Ghost Dashboard 实际激活时间；每个平台配置单元的 Day 0 是配置实际生效时间。Ads、SEO、RUM 和 Cloudflare 均按 release unit 分别记录，最终组合窗口不能替代单元窗口。

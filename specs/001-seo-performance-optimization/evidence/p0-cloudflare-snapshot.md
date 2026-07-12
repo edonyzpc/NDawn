@@ -49,7 +49,7 @@
 | Request Header | Webhook Header | Memos/Webhook 历史匹配，注入一个 secret header | Active |
 | Response Header | R2-CORS | `img.edony.ink`、`memos.edony.ink` 加 `access-control-allow-origin: *` | Active |
 
-Webhook header 的 secret value 未写入仓库；后续 R10 若调整表达式或轮换 secret，必须独立批准。当前无 URL Rewrite、Configuration、Origin、Compression Rules。
+Webhook Header 的 secret value 未写入仓库；R10 精确审计确认其 OR 条件会为所有 `twitter.edony.ink` 请求及一个公网来源访问任意 Zone host 时注入认证 header，RFC1918 条件无效。敏感值已进入受控审计上下文，必须轮换；用途、Bot/webhook/backend owner 与执行窗口待用户确认，详见 `r10-transform-readonly-audit.md`。当前无 URL Rewrite、Configuration、Origin、Compression Rules。
 
 ## Security Rules
 
@@ -63,7 +63,8 @@ Webhook header 的 secret value 未写入仓库；后续 R10 若调整表达式�
 | 4 | AI Scrapers and Crawlers rule | Verified Bot Category = AI Crawler → Block | Disabled |
 
 - Managed WAF Rules：Free plan 未配置。
-- Rate limiting：1 条 Active；表达式把多个 hostname 字符串用于 `URI Path starts_with`，从语义看很可能无法命中。只能在 R10 通过日志/模拟验证后修复，不能直接重写。
+- `Allow Gemini AI` 精确审计确认会 Skip 所有后续 Custom Rules、Managed Rules 与 Super Bot Fight Mode，但条件只检查可伪造的 `Gemini-Google` User-Agent；Google 官方没有该独立 crawler UA。建议 R10 单独禁用并保留 Enable 回滚，详见 `r10-gemini-skip-readonly-audit.md`。
+- Rate limiting：1 条 Active；R10 已读取精确表达式，确认它把多个 hostname 字符串用于 `URI Path starts_with`，不会匹配正常以 `/` 开头的 path。Free plan 又不支持 Host 条件，因此不能直接原位修成多 hostname 规则；建议博客范围 No-op，详见 `r10-rate-limit-readonly-audit.md`。
 - 当前规则事件计数快照均为 0，不能据此证明规则正确或无误报。
 
 ## SSL/TLS
@@ -76,7 +77,7 @@ Webhook header 的 secret value 未写入仓库；后续 R10 若调整表达式�
 - Opportunistic Encryption、Automatic HTTPS Rewrites：On。
 - HTTP/2、HTTP/3、HTTP/2 to Origin、0-RTT：On。
 
-`Full → Full (strict)` 只有在直连源证书链、Ghost 支持边界和回滚证据齐全后才可另立 R10 单元；当前不改。
+全 Zone `Full → Full (strict)` 不安全：历史 `old` 与 `_domainconnect` origin 未能提供可验证证书。Ghost `www` origin 已通过 CA、有效期与 hostname 验证，可选择用 `(http.host eq "www.edony.ink")` 的 Configuration Rule 单独设为 Strict；方案与回滚见 `r10-full-strict-options.md`，当前不改。
 
 ## Speed / RUM / Zaraz
 
@@ -87,10 +88,10 @@ Webhook header 的 secret value 未写入仓库；后续 R10 若调整表达式�
 - Early Hints：Enabled。
 - Speed Brain：Disabled。
 - Rocket Loader：Disabled。
-- Zaraz：Zone Active；Custom HTML、Custom Image 未启用，GA4 tool 为 checked。
-- 公开首页 DOM：direct gtag 1、Zaraz runtime script 0、Cloudflare beacon 1、Ghost Stats 1。
+- Zaraz：Zone Active；Custom HTML、Custom Image 未启用，GA4 tool 与自动 Pageviews 为 checked，Measurement ID 与 Site Header direct gtag 相同。
+- 公开首页 DOM：direct gtag、Zaraz bootstrap、Cloudflare beacon 与 Ghost Stats 均存在。
 
-因此 Zaraz GA4 是“配置存在、运行 owner 未观察到”的历史状态；不得直接删除或启用第二套 pageview。P1 需把 direct GA4、Zaraz 配置与 GA4 实际数据核对后确定唯一 owner。
+点时 owner 验证显示 Zaraz bootstrap `executed=[]`、页面无可运行 `window.zaraz`，单次唯一审计访问在 GA4 Realtime 只有 1 个 view；当前实际 page_view owner 为 Site Header direct gtag，Zaraz GA4 是未执行的 shadow config。不得直接删除或启用第二套 pageview，详见 `ga4-zaraz-baseline.md`。
 
 ### RUM 最近 24 小时
 
@@ -105,9 +106,9 @@ Webhook header 的 secret value 未写入仓库；后续 R10 若调整表达式�
 ## 已识别但未执行的候选
 
 1. R9：逐条验证 Ghost Static Assets / Images 的 HIT、TTL、ETag、精确 Purge；不缓存 HTML。
-2. R10：先 Log/观察 rate-limit 的无效 path 表达式，再决定修复。
-3. R10：审计 Webhook Header 的 OR 范围与 secret rotation，不与缓存混改。
-4. R10：验证 Verified Bots 与 Gemini Skip 的真实命中和误报。
-5. 独立证书调查：仅在直连证据充分时评估 Full (strict)，不触碰 DNS-only 应急门。
+2. R10：Rate Limit 已确认不命中；博客范围 No-op 已批准，应用级修复另行收集真实 path/流量基线。
+3. R10：Gemini Skip 已确认仅按可伪造 UA 绕过后续安全组件；单独 Disabled 设计已批准，实际 Save 待顺序门与执行批准。
+4. R10：Webhook Header 已确认范围过宽且 secret 需轮换；用户决定暂不改动，风险保留安全 backlog。R2-CORS 博客范围 No-op 已批准。
+5. R10：Ghost `www` 专用 Strict Configuration Rule 设计已批准；实际 Save 等待顺序门与执行批准，禁止全 Zone 切换，不触碰 DNS-only 应急门。
 
 以上全部需要对应 G-004/G-005 批准；本次没有点击任何保存、开关、重排、Purge 或规则动作。

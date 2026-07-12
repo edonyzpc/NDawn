@@ -1,6 +1,6 @@
-# P1 Integration Ownership Audit（Draft）
+# P1 Integration Ownership Audit
 
-> 状态：`PUBLIC SURFACE AUDITED / ADMIN EXPORT PENDING`  
+> 状态：`CLOSED / FULL GHOST EXPORT AUDITED / OWNER GATES MAPPED`
 > 记录时间：2026-07-12（Asia/Singapore）  
 > 线上写入：无
 
@@ -12,9 +12,9 @@
 | Stripe | Ghost Portal | `ghost_head` | 全站 HTML | async | 保留 |
 | Search | Ghost Sodo Search | `ghost_head` | 全站 | defer | 保留 |
 | Ghost Analytics | Ghost | `ghost_head` | 全站 | defer | 保留 |
-| GA4 | Site Header Injection + Zaraz shadow config | Ghost Injection + Cloudflare | 全站/配置态 | direct script async；Zaraz runtime 未观察到 | owner 待核对 |
+| GA4 | Site Header direct gtag；Zaraz shadow config | Ghost Injection + Cloudflare | 全站/配置态 | direct script async；Zaraz bootstrap 未执行任何 tool | owner Pass；保留两边配置但禁止第二套 pageview |
 | Fonts | Site Header Injection + theme CSS | Header + `screen.css` | 全站 | non-blocking preload | owner 冲突，进入 R5 |
-| Prism | Site Footer Injection + 64 个历史 Post Injection | Site/Post Injection | 代码 Post 为主 | DOM 检测后动态加载；历史语言组件额外加载 | owner 冲突，进入 R6 |
+| Prism | Site Footer Injection + 59 个历史 Post/Page Injection | Site/Post Injection | 代码 Post 为主 | DOM 检测后动态加载；历史语言组件额外加载 | owner 冲突，进入 R6 |
 | Ghost Comments | Ghost helper | `post.hbs` | 登录会员普通 Post | Ghost managed | 保留 |
 | Giscus | theme partial | `partials/comments.hbs` | 匿名普通 Post + 三个 Custom Post | async + lazy iframe | 保留 |
 | Ads | theme partial + `post.js` | 四个 Post-family 模板 | Post/Custom Post | 近视口 | R2 owner |
@@ -30,39 +30,39 @@
 
 ## Page/Post Injection 审计
 
-公开 Content API 覆盖 196 篇 published Post 与公开 Pages：
+Ghost 原始 Export 覆盖 215 条 Post/Page（210 published、5 draft；201 Post、14 Page）：
 
-- 非空 Post Injection：64 篇；head 3 篇，foot 63 篇。
-- 非空 Page Injection：3 页；head 1 页，foot 2 页。
-- 全量公开 Post/Page Injection 中 jQuery / `$()` / `$.` 命中：0。
+- 非空 Injection：68 条；65 Post、3 Page；67 published、1 draft。
+- 全量原始 Post/Page Injection 中 jQuery 命中：0。
+- Prism 59 条、Mermaid 4 条、MathJax 2 条、KaTeX 2 条，部分文章组合使用。
 - 历史 Prism 主要版本为 1.26/1.28/1.29，并存在 Go、Python、Bash、TypeScript、C/C++、SQL、YAML 等按文章组件。
 - 另有 Mermaid、KaTeX、MathJax 及个别页面专用组件，不能作为 Prism 清理顺手删除。
 
-结论：当前公开生产 Post/Page Injection 不依赖 jQuery，R0 的生产 owner 条件初步 Pass；但 P1 正式关闭前仍需 Ghost Export/后台快照覆盖 drafts、未公开 Page 及原始格式。
+结论：全部公开、draft/private 原始 Post/Page Injection 均不依赖 jQuery，R0 owner 条件正式 Pass，R0 应走 No-op，不制造 Injection 修改。
 
-Cloudflare Zaraz 当前为 Zone Active，GA4 tool checked；但公开首页 DOM 只观察到 direct gtag，没有 Zaraz runtime script。必须用 GA4 实际请求/数据核对唯一 pageview owner，不能把“配置 checked”误判为已经重复统计，也不能直接删除 Zaraz 能力。
+2026-07-12 P0 按 D-031 关闭后，当前混合 authoring WIP 已冻结为“禁止直接发布”；`unit-scope-matrix.md` 的允许文件、禁止项和 predecessor 继续作为事实来源，9 个独立候选 worktree 复核为 clean。P1 随后正式关闭，R0 已按 No-op 退出。
+
+Cloudflare Zaraz 当前为 Zone Active，GA4 tool 与 Pageviews checked，且使用与 Site Header 相同的 Measurement ID。公开页加载 Zaraz bootstrap，但点时 payload `executed=[]`，页面无可运行 `window.zaraz`；唯一审计访问在 GA4 Realtime 产生 1 个 view。当前实际 page_view owner 因此判定为 direct gtag，Zaraz 保留为未执行 shadow config；详见 `ga4-zaraz-baseline.md`。
 
 ## 阶段入口判定
 
 | 阶段 | 当前结论 | 原因 |
 |---|---|---|
-| R0 | `PUBLIC PASS / FORMAL BLOCK` | 公开 Injection 无 jQuery；全量 Admin Export 未完成 |
-| R2 | `OWNER PASS / METRIC BLOCK` | Ads 只有 theme owner；G-003 最低样本与收益线未锁定 |
-| R3b | `PUBLIC PASS / FORMAL BLOCK` | 公开 Post/Page Injection 无 jQuery；需先完成 R0/R1/R2/R3a |
-| R5 | `EXECUTE CANDIDATE` | Barlow/Alike 在 Site Injection，theme CSS 用 `!important` 强制 Barlow；`@custom` Elegant/LXGW 当前会被覆盖或无效 |
-| R6 | `EXECUTE CANDIDATE` | Site Footer 已按 DOM 加载，但 64 篇历史 Post Injection 仍是额外 Prism owner；需单独备份和清理，不得影响 Mermaid/KaTeX/MathJax |
+| R0 | `OWNER PASS / NO-OP` | 全量 Export 证明 68 条非空 Injection 的 jQuery 命中为 0 |
+| R2 | `OWNER + METRIC PASS` | Ads 只有 theme owner；7/28 天网站级基线及 G-003 已获用户确认 |
+| R3b | `OWNER PASS / SEQUENCE BLOCK` | Post/Page Injection 无 jQuery；仍需先完成 R1/R2/R3a |
+| R5 | `TWO LOCAL CANDIDATES / SEQUENCE BLOCK` | R5a 已完成本地 LXGW 清理；R5b 方案 A 已批准并以独立 commit/ZIP 恢复 Modern/Elegant 条件 owner；Barlow/Alike 仍在 Site Injection，等待 R5b 稳定后执行独立 R5c |
+| R6 | `EXECUTE CANDIDATE` | 59 条历史 Prism Injection 已形成精确 allowlist：54 条 Prism-only、5 条需保留 Mermaid/KaTeX/MathJax；等待 R5.x 与修改批准 |
 
 ## 字体历史包袱
 
 - Site Injection 加载 Barlow 300/500/700（含 italic）和 Alike。
 - `assets/css/misc/header-inject.css` 用 `!important` 对 body 与所有 heading 强制 Barlow，覆盖 Ghost `@custom` 字体语义。
-- package 提供 `LXGW Bright` 选项，但相关 `@font-face` 已注释，且现有 WOFF2 位于被 ZIP 排除的 `assets/css/**`。
-- 当前线上设置是 `Modern sans-serif`，因此当前视觉不受影响；R5 必须在保留 Modern/Elegant/LXGW 三个选项的前提下处理，不能直接删除任一能力。
+- 生产 active theme 仍提供 `LXGW Bright` 选项，但从未有效加载；本地 R5 候选已按批准范围删除选项、注释、fallback 与旧 WOFF2，尚未发布。
+- 当前线上设置是 `Modern sans-serif`，因此本地清理不改变生产视觉。
 
 ## 未完成
 
-- Ghost 全量 Export 和原格式 Page/Post Injection 备份。
-- private/draft 内容的 Injection 审计。
-- GA4/Ghost Analytics/Ads 数据口径和样本导出。
-- R5 字体许可、子集、最终包路径与视觉预览。
-- R6 64 篇历史 Prism Injection 的精确 allowlist、predecessor 和清理批准。
+- 每个触及 Site Header、Zaraz 或 Cloudflare 请求链的生产单元仍须复核单访问单 page_view。
+- R5a/R5b 仍须按顺序发布；R5c 线上 Site Header 字体迁移仍须独立执行批准。
+- R6 执行前的最新 predecessor Export/checksum 与清理批准；allowlist 已完成。

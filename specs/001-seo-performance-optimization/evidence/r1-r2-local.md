@@ -6,7 +6,17 @@
 
 ## 范围说明
 
-当前工作区仍包含 R1、R2、R3a、R3b 的混合 WIP。依据 FR-003，这些改动不得作为一个候选直接发布；本记录只证明 R1/R2 的本地实现行为，不代表前置 gate、发布批准、线上激活或观察期完成。
+主 authoring 工作区仍包含 R1、R2、R3a、R3b 的混合 WIP。依据 FR-003，这些改动不得作为一个候选直接发布；R1 已另外从 accepted head 重建为独立本地提交，R2 仍只保留混合 WIP/fixture 证据。本记录不代表前置 gate、发布批准、线上激活或观察期完成。
+
+## R1 独立本地候选
+
+- 基线：accepted `master` head `4e3ac8a`。
+- 分支/提交：`codex/r1-native-js` / `0e72467 perf(theme): remove jQuery from core interactions`。
+- 严格范围：`main.js`、`post.js` 的 sticky/table/TOC/PhotoSwipe、`partials/header.hbs` 及对应 `main/post` built + Source Map；不含 Ads、jQuery 版本/范围、Featured、SEO 或配置修改。
+- source fatal GScan、ZIP fatal GScan、allowlist/identity/唯一 ZIP、JS syntax、`git diff --check` 均 PASS。
+- 本地验证 ZIP：`ndawn-r1-local`，SHA-256 `0f11ca15354d58b7d7fe24e52f11c19ccf475554f01918222091fd5a0927cd86`；仅用于验证，未上传。
+- 真实 Chrome fixture：More 打开/外部关闭、Burger `aria-expanded/aria-hidden`、主题 `System → Dark → Light → System`、特殊 ID `中文 标题/%` TOC 编码链接与原始目标平滑滚动均 PASS。
+- 未 push、未上传 Ghost、未激活；生产 active theme 不变。
 
 ## R1 — Native JS 与 TOC
 
@@ -34,6 +44,16 @@
 - 单 Slot unfilled 收起父容器；全部 unfilled 收起整个 Ads 区域；
 - 零尺寸和脚本失败在一次重试后进入可观测失败状态并收起区域；
 - 桌面、平板、手机三档 intrinsic slot 高度。
+
+## R2 独立本地候选
+
+- 基线：R1 isolated commit `0e72467`。
+- 分支/提交：`codex/r2-ads-near-viewport` / `f52f512 perf(ads): load slots near viewport`。
+- 严格范围：`post.js` Ads 状态机、`assets/css/blog/ads.css`、`partials/ads.hbs` 及对应 `post/screen` built + Source Map；不含 jQuery、Featured、SEO 或 Ghost/Cloudflare 配置。
+- source fatal GScan、ZIP fatal GScan、allowlist/identity/唯一 ZIP、JS syntax、`git diff --check` 均 PASS。
+- 本地验证 ZIP：`ndawn-r2-local`，SHA-256 `dff03eced99af5a4889949aeea5712b5b161c8760c61632bae3a1031de2a001c`；仅用于验证，未上传。
+- 真实 Chrome fixture：default 与无 IntersectionObserver 均为 `rendered`；全部 unfilled 为 `unfilled/is-empty`；零尺寸、脚本 404、状态超时在一次重试后分别稳定收敛为对应 `failed`；每个 Slot 仅标记一次 requested。
+- 未 push、未上传 Ghost、未激活；G-003 与生产 AdSense/三设备门尚未满足。
 
 ## Chrome fixture 结果
 
@@ -80,7 +100,7 @@ http://127.0.0.1:8765/specs/001-seo-performance-optimization/evidence/fixtures/r
 ## 尚未满足
 
 - Ads script 监听器已在 append 前注册，并已在真实 Chromium 重跑成功加载与 `script-error` 场景；仍需在独立 R2 候选上完成真实 AdSense/三设备 Smoke。
-- R1/R2 的 predecessor、独立候选、上传/激活批准尚未执行。
+- R1/R2 predecessor 与独立本地候选已建立；两者的上传/激活批准尚未执行，且必须遵守前置阶段与 72h 顺序门。
 - R1 完整产品 Smoke 与 72 小时门尚未执行。
 - G-003 的 Ads 最低样本、收益回滚线和 owner 尚未锁定。
 - R2 线上 Ads Day 0、立即检查、72 小时及 Day 7/14/28 尚未开始。

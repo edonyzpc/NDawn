@@ -19,10 +19,10 @@
 | Tag | `https://www.edony.ink/tag/ai/` | Tag heading、Feed、分页 |
 | Author | `https://www.edony.ink/author/edony/` | Author heading、Feed、分页 |
 | Custom Narrow | `https://www.edony.ink/vscode-docker-container-env/` | Content API 明确返回 `custom-narrow-feature-image` |
-| Custom Full | 待决策 | 196 篇公开 Post 中未发现使用记录 |
-| Custom No-image | 待决策 | 196 篇公开 Post 中未发现使用记录 |
+| Custom Full | 专用未发布 Draft Preview | 196 篇公开 Post 中无使用记录；使用批准的专用草稿验证，不制造公开 URL |
+| Custom No-image | 同一专用未发布 Draft Preview | 196 篇公开 Post 中无使用记录；同一草稿切换模板验证 |
 
-公开 Content API 共返回 196 篇 Post。`custom-narrow-feature-image` 有 16 篇使用记录；`custom-full-feature-image` 与 `custom-no-feature-image` 没有公开 Post 使用记录。不得虚构两个 URL 或在未经批准时修改文章模板。
+公开 Content API 共返回 196 篇 Post。`custom-narrow-feature-image` 有 16 篇使用记录；`custom-full-feature-image` 与 `custom-no-feature-image` 没有公开 Post 使用记录。2026-07-12 已用一个专用未发布 Draft 依次完成 Full/No-image Preview，避免虚构公开 URL 或修改既有文章。
 
 ## 2. 公开技术端点
 
@@ -71,15 +71,15 @@
 | jQuery | 当前 active theme 3.5.1，全站 |
 | Cloudflare email decode | Cloudflare `/cdn-cgi/scripts/.../email-decode.min.js` |
 
-这只是公开 HTML owner 线索；P1 关闭前仍需与 Site/Page/Post Injection 全量导出核对。
+公开 HTML owner 线索已与 Site/Page/Post Injection 全量导出核对；正式结论见 `p1-owner-audit.md`。
 
 ## 6. 尚未满足的 P0 项
 
-- 已记录 Ghost 已安装 active predecessor `ndawn-2026-07-05-13-03`（v2.2.0）；按已确认策略保持安装、不得删除并通过 Dashboard 重新 Activate，旧 ZIP 下载与 checksum 为 N/A。
-- Ghost Export、全部 Injection、routes、redirects 未导出。
-- Cloudflare 脱敏快照已完成并保存在 `p0-cloudflare-snapshot.md`；正式 P0 关闭仍依赖 active theme/Ghost Export 等其他恢复材料。
-- GA4、Ghost Analytics、Cloudflare RUM、AdSense 7/28 天样本未导出。
-- Chrome/Safari、设备、网络、冷/热缓存及匿名/免费/付费账号矩阵未锁定。
-- 三个核心性能页面的每组合 5 次 LCP/CLS/瀑布/主线程测量未执行。
-- `custom-full-feature-image` 与 `custom-no-feature-image` 无公开 URL，需要用户选择离线 fixture、预览草稿或从矩阵移除。
-- 本文是 F0 关闭前的提前只读采集，不勾选 T013–T024。
+- 当前 active theme 已更新为用户手动激活的 `ndawn-dbc1e7b189ee`（v2.2.0，源码/候选 commit `dbc1e7b`，ZIP SHA-256 `bbed2724…c8a8`）；原 `ndawn-2026-07-05-13-03` 继续保留为平台回退点，不删除、不下载旧 ZIP。
+- Ghost Content/Settings Export、全部非空 Injection、`routes.yaml`、`redirects.yaml` 已保存到 gitignored `.private`，脱敏摘要与 checksum 见 `p0-ghost-recovery-snapshot.md`。
+- Cloudflare 脱敏快照已完成并保存在 `p0-cloudflare-snapshot.md`；active/predecessor 与 Ghost 恢复材料门已满足。
+- AdSense 的 `www.edony.ink` 7/28 天、GA4 7/28 天与 Ghost Analytics 30 天基线已只读记录；Cloudflare RUM 只有样本不足且可能污染的 24 小时线索，按批准口径记 `Insufficient`。T018 已按各平台可用窗口关闭。
+- 测量协议与 Chrome 手机/桌面、冷/热缓存矩阵已锁定；Safari Desktop/390×844/768×1024、Chrome 平板及真实付费账号功能 Smoke 已完成，真实免费账号仍未完成。
+- 三个核心性能页面的 60 个无警告 Lighthouse 有效样本已完成，结果见 `p0-lighthouse-baseline.md`。
+- Full/No-image 已由专用未发布 Draft Preview 补齐；Draft 保留且最终模板为 No Feature Image。
+- 固定 URL、激活回退点与公开技术 SEO/响应头基线已分别关闭 T013、T015、T019；其余 P0 项继续按 Tasks 独立关闭。
