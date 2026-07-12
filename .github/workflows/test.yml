@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -36,6 +38,46 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Set candidate identity
+        id: candidate
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            theme_name="ndawn-pr-${{ github.event.number }}-${GITHUB_SHA::12}"
+          else
+            theme_name="ndawn-${GITHUB_SHA::12}"
+          fi
+          echo "THEME_NAME=$theme_name" >> "$GITHUB_ENV"
+          echo "FINAL_ZIP=dist/$theme_name.zip" >> "$GITHUB_ENV"
+          echo "theme_name=$theme_name" >> "$GITHUB_OUTPUT"
+          echo "final_zip=dist/$theme_name.zip" >> "$GITHUB_OUTPUT"
+
+      - name: Detect upload-relevant changes
+        id: theme_changes
+        if: github.event_name == 'push'
+        run: |
+          before="${{ github.event.before }}"
+          if [ "$before" = "0000000000000000000000000000000000000000" ]; then
+            before="$(git rev-list --max-parents=0 "$GITHUB_SHA")"
+          fi
+          if git diff --quiet "$before" "$GITHUB_SHA" -- \
+            '*.hbs' \
+            'partials/**/*.hbs' \
+            'members/**/*.hbs' \
+            'assets/**' \
+            'locales/**' \
+            'package.json' \
+            'yarn.lock' \
+            'gulpfile.js' \
+            '.nvmrc' \
+            'scripts/ci/**' \
+            'LICENSE' \
+            'ads.txt' \
+            'favicon*.ico'; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Check JavaScript syntax
         run: |
@@ -55,3 +97,11 @@ jobs:
         run: |
           git diff --exit-code -- assets/built
           git diff --check
+
+      - name: Upload inactive Ghost theme candidate
+        if: github.event_name == 'push' && steps.theme_changes.outputs.changed == 'true'
+        uses: TryGhost/action-deploy-theme@v2
+        with:
+          api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
+          api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
+          file: ${{ steps.candidate.outputs.final_zip }}

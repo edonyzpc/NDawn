@@ -98,8 +98,8 @@
         "dev": "gulp",
         "test": "gscan .",
         "test:ci": "gscan --fatal --verbose .",
-        "test:zip": "gscan -z dist/ndawn.zip",
-        "test:zip:ci": "gscan -z --fatal --verbose dist/ndawn.zip",
+        "test:zip": "node scripts/ci/validate-theme-package.mjs",
+        "test:zip:ci": "node scripts/ci/validate-theme-package.mjs",
         "lint": "gulp lint",
         "zip": "gulp zip"
     },

@@ -1,5 +1,7 @@
 const {series, parallel, watch, src, dest} = require('gulp');
 const pump = require('pump');
+const fs = require('fs');
+const path = require('path');
 
 // gulp plugins and utils
 const livereload = require('gulp-livereload');
@@ -14,6 +16,26 @@ const zip = require('gulp-zip');
 const easyimport = require('postcss-easy-import');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
+
+const rootPackage = require('./package.json');
+const themeName = process.env.THEME_NAME || rootPackage.name;
+const packageStage = path.join('.tmp', 'theme-package');
+const packageDist = 'dist';
+const packageFilename = `${themeName}.zip`;
+const packageTimestamp = new Date('2000-01-01T00:00:00.000Z');
+const packageFiles = [
+    '*.hbs',
+    'partials/**/*.hbs',
+    'members/**/*.hbs',
+    'assets/**',
+    '!assets/css/**',
+    '!assets/js/**',
+    'locales/**',
+    'package.json',
+    'LICENSE',
+    'ads.txt',
+    'favicon*.ico'
+];
 
 function serve(done) {
     livereload.listen();
@@ -93,26 +115,72 @@ function lint(done) {
     ], handleError(done));
 }
 
+function cleanPackage(done) {
+    fs.rmSync(packageStage, {recursive: true, force: true});
+    fs.mkdirSync(packageDist, {recursive: true});
+    fs.readdirSync(packageDist)
+        .filter((filename) => filename.endsWith('.zip'))
+        .forEach((filename) => fs.rmSync(path.join(packageDist, filename), {force: true}));
+    done();
+}
+
+function stagePackage(done) {
+    pump([
+        src(packageFiles, {base: '.', allowEmpty: true, nodir: true}),
+        dest(packageStage)
+    ], handleError(done));
+}
+
+function setPackageIdentity(done) {
+    const stagedPackagePath = path.join(packageStage, 'package.json');
+    const stagedPackage = JSON.parse(fs.readFileSync(stagedPackagePath, 'utf8'));
+    stagedPackage.name = themeName;
+    fs.writeFileSync(stagedPackagePath, `${JSON.stringify(stagedPackage, null, 4)}\n`);
+    done();
+}
+
+function normalizePackageTimestamps(done) {
+    function normalize(directory) {
+        fs.readdirSync(directory, {withFileTypes: true}).forEach((entry) => {
+            const entryPath = path.join(directory, entry.name);
+            if (entry.isDirectory()) {
+                normalize(entryPath);
+            } else if (entry.isFile()) {
+                fs.utimesSync(entryPath, packageTimestamp, packageTimestamp);
+            }
+        });
+    }
+
+    normalize(packageStage);
+    done();
+}
+
+function listPackageFiles(directory = packageStage, prefix = '') {
+    return fs
+        .readdirSync(directory, {withFileTypes: true})
+        .sort((left, right) => left.name.localeCompare(right.name, 'en'))
+        .flatMap((entry) => {
+            const relativePath = path.posix.join(prefix, entry.name);
+            const entryPath = path.join(directory, entry.name);
+            return entry.isDirectory()
+                ? listPackageFiles(entryPath, relativePath)
+                : [relativePath];
+        });
+}
+
 function zipper(done) {
-    const filename = require('./package.json').name + '.zip';
+    const files = listPackageFiles().map((file) => path.join(packageStage, file));
 
     pump([
-        src([
-            '**',
-            '!node_modules', '!node_modules/**',
-            '!dist', '!dist/**',
-            '!docs', '!docs/**',
-            '!assets/css', '!assets/css/**',
-            '!assets/js', '!assets/js/**',
-            '!Makefile',
-            '!README.md',
-            '!renovate.json',
-            '!yarn.lock',
-            '!yarn-error.log'
-        ]),
-        zip(filename),
-        dest('dist/')
+        src(files, {base: packageStage, dot: true, nodir: true}),
+        zip(packageFilename),
+        dest(packageDist)
     ], handleError(done));
+}
+
+function cleanPackageStage(done) {
+    fs.rmSync(packageStage, {recursive: true, force: true});
+    done();
 }
 
 const hbsWatcher = () => watch(['*.hbs', 'partials/**/*.hbs', 'members/**/*.hbs'], hbs);
@@ -123,5 +191,13 @@ const build = series(css, js);
 
 exports.build = build;
 exports.lint = lint;
-exports.zip = series(build, zipper);
+exports.zip = series(
+    build,
+    cleanPackage,
+    stagePackage,
+    setPackageIdentity,
+    normalizePackageTimestamps,
+    zipper,
+    cleanPackageStage
+);
 exports.default = series(build, serve, watcher);
