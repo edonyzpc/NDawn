@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gallery();
     table();
     toc();
+    ads();
 });
 
 window.addEventListener('scroll', function () {
@@ -170,6 +171,303 @@ function toc() {
             toggle.focus();
         }
     });
+}
+
+function ads() {
+    'use strict';
+    document.querySelectorAll('.post-ads').forEach(function (container) {
+        setupAds(container);
+    });
+}
+
+function setupAds(container) {
+    'use strict';
+    if (container.getAttribute('data-ads-state')) {
+        return;
+    }
+
+    var slots = Array.from(container.querySelectorAll('ins.adsbygoogle'));
+    if (!slots.length) {
+        return;
+    }
+
+    var started = false;
+    var retries = 0;
+    var observer;
+    var statusTimer;
+    var statusObserver;
+    var statusTimeout = Number(container.getAttribute('data-ad-status-timeout')) || 15000;
+    var nextFrame =
+        window.requestAnimationFrame ||
+        function (callback) {
+            return window.setTimeout(callback, 16);
+        };
+
+    function setState(state, reason) {
+        container.setAttribute('data-ads-state', state);
+        if (reason) {
+            container.setAttribute('data-ads-reason', reason);
+        } else {
+            container.removeAttribute('data-ads-reason');
+        }
+    }
+
+    function cleanupViewportTriggers() {
+        if (observer) {
+            observer.disconnect();
+        }
+        window.removeEventListener('scroll', maybeStart);
+        window.removeEventListener('resize', maybeStart);
+    }
+
+    function cleanupStatusObservation() {
+        window.clearTimeout(statusTimer);
+        if (statusObserver) {
+            statusObserver.disconnect();
+            statusObserver = null;
+        }
+    }
+
+    function fail(reason) {
+        cleanupStatusObservation();
+        started = false;
+        retries += 1;
+        setState(retries <= 1 ? 'retry-wait' : 'failed', reason);
+
+        if (retries <= 1) {
+            window.setTimeout(maybeStart, 1000);
+            return;
+        }
+
+        cleanupViewportTriggers();
+        container.classList.add('is-failed');
+    }
+
+    function updateSlotStatus() {
+        var filled = 0;
+        var unfilled = 0;
+
+        slots.forEach(function (slot) {
+            var status = slot.getAttribute('data-ad-status');
+            var parent = slot.closest('.post-ad');
+
+            if (status === 'filled') {
+                filled += 1;
+                if (parent) {
+                    parent.classList.remove('is-unfilled');
+                }
+            } else if (status === 'unfilled') {
+                unfilled += 1;
+                if (parent) {
+                    parent.classList.add('is-unfilled');
+                }
+            }
+        });
+
+        if (filled + unfilled !== slots.length) {
+            if (filled > 0) {
+                setState('partially-rendered');
+            }
+            return;
+        }
+
+        cleanupStatusObservation();
+        if (filled === 0) {
+            container.classList.add('is-empty');
+            setState('unfilled');
+        } else {
+            setState('rendered');
+        }
+    }
+
+    function observeSlotStatus() {
+        if (typeof window.MutationObserver === 'function') {
+            statusObserver = new MutationObserver(updateSlotStatus);
+            slots.forEach(function (slot) {
+                statusObserver.observe(slot, {
+                    attributes: true,
+                    attributeFilter: ['data-ad-status']
+                });
+            });
+        }
+
+        statusTimer = window.setTimeout(function () {
+            var state = container.getAttribute('data-ads-state');
+            if (state === 'requested' || state === 'partially-rendered') {
+                fail('status-timeout');
+            }
+        }, statusTimeout);
+
+        updateSlotStatus();
+    }
+
+    function requestAds() {
+        window.adsbygoogle = window.adsbygoogle || [];
+        var requestFailed = false;
+
+        slots.forEach(function (slot) {
+            if (slot.getAttribute('data-ad-requested') === 'true') {
+                return;
+            }
+
+            try {
+                slot.setAttribute('data-ad-requested', 'true');
+                window.adsbygoogle.push({});
+            } catch (error) {
+                slot.removeAttribute('data-ad-requested');
+                requestFailed = true;
+            }
+        });
+
+        if (requestFailed) {
+            fail('request-error');
+            return;
+        }
+
+        cleanupViewportTriggers();
+        setState('requested');
+        observeSlotStatus();
+    }
+
+    function loadAdScript() {
+        var scriptSrc = container.getAttribute('data-ad-script');
+        if (!scriptSrc) {
+            fail('missing-script');
+            return;
+        }
+
+        var script = document.querySelector('script[src="' + scriptSrc + '"]');
+        if (
+            script &&
+            (script.getAttribute('data-ads-loaded') === 'true' ||
+                (window.adsbygoogle && window.adsbygoogle.loaded))
+        ) {
+            requestAds();
+            return;
+        }
+
+        var created = false;
+        if (!script) {
+            created = true;
+            script = document.createElement('script');
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.src = scriptSrc;
+            script.setAttribute('data-ndawn-ads-script', 'true');
+        }
+
+        var settled = false;
+        var scriptTimer = window.setTimeout(function () {
+            if (settled) {
+                return;
+            }
+            settled = true;
+            if (created) {
+                script.remove();
+            }
+            fail('script-timeout');
+        }, 8000);
+
+        script.addEventListener(
+            'load',
+            function () {
+                if (settled) {
+                    return;
+                }
+                settled = true;
+                window.clearTimeout(scriptTimer);
+                script.setAttribute('data-ads-loaded', 'true');
+                requestAds();
+            },
+            {once: true}
+        );
+        script.addEventListener(
+            'error',
+            function () {
+                if (settled) {
+                    return;
+                }
+                settled = true;
+                window.clearTimeout(scriptTimer);
+                if (created) {
+                    script.remove();
+                }
+                fail('script-error');
+            },
+            {once: true}
+        );
+
+        if (created) {
+            document.head.appendChild(script);
+        }
+    }
+
+    function waitForLayout(attempt) {
+        nextFrame(function () {
+            var hasLayout = slots.every(function (slot) {
+                var rect = slot.getBoundingClientRect();
+                return rect.width > 0 && rect.height > 0;
+            });
+
+            if (hasLayout) {
+                loadAdScript();
+            } else if (attempt < 12) {
+                waitForLayout(attempt + 1);
+            } else {
+                fail('zero-sized-slot');
+            }
+        });
+    }
+
+    function start() {
+        if (started) {
+            return;
+        }
+        started = true;
+        setState('laying-out');
+        container.classList.add('is-layout-ready');
+
+        // Make content visible, then wait at least one rendered frame before
+        // checking slot geometry and requesting an ad.
+        nextFrame(function () {
+            waitForLayout(0);
+        });
+    }
+
+    function maybeStart() {
+        if (started) {
+            return;
+        }
+        var rect = container.getBoundingClientRect();
+        var distance = Math.max(window.innerHeight * 1.75, 800);
+        if (rect.top <= window.innerHeight + distance && rect.bottom >= -distance) {
+            start();
+        }
+    }
+
+    setState('observing');
+    window.addEventListener('scroll', maybeStart, {passive: true});
+    window.addEventListener('resize', maybeStart);
+
+    if (typeof window.IntersectionObserver === 'function') {
+        var distance = Math.max(window.innerHeight * 1.75, 800);
+        observer = new IntersectionObserver(
+            function (entries) {
+                if (
+                    entries.some(function (entry) {
+                        return entry.isIntersecting;
+                    })
+                ) {
+                    start();
+                }
+            },
+            {rootMargin: distance + 'px 0px'}
+        );
+        observer.observe(container);
+    }
+
+    // Covers already-near content and fast scroll before the observer callback.
+    maybeStart();
 }
 
 function pswp(container, element, trigger, caption, isGallery) {

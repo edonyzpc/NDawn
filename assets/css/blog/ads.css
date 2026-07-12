@@ -1,8 +1,23 @@
 .post-ads {
+    --ad-slot-height: 250px;
+
+    content-visibility: auto;
+    contain-intrinsic-size: auto calc(var(--ad-slot-height) * 2 + 2rem);
     display: grid;
     gap: 2rem;
     margin-top: 4.5rem;
     margin-bottom: 5rem;
+}
+
+.post-ads.is-layout-ready {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+}
+
+.post-ads.is-empty,
+.post-ads.is-failed,
+.post-ad.is-unfilled {
+    display: none;
 }
 
 .post-ad {
@@ -26,6 +41,10 @@
 }
 
 @media (max-width: 768px) {
+    .post-ads {
+        --ad-slot-height: 150px;
+    }
+
     .post-ad,
     .post-ad .adsbygoogle {
         min-height: 150px;
@@ -33,6 +52,10 @@
 }
 
 @media (max-width: 480px) {
+    .post-ads {
+        --ad-slot-height: 100px;
+    }
+
     .post-ad,
     .post-ad .adsbygoogle {
         min-height: 100px;
