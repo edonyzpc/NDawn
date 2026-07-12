@@ -1,6 +1,6 @@
 # P0 生产 5xx 数据源与 G-007 口径
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`ACCEPTED / PRODUCTION 5XX OBSERVATION-ONLY / NO CONFIG CHANGE`
 
 ## 当前可用性

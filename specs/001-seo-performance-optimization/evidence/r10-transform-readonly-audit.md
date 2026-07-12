@@ -1,6 +1,6 @@
 # R10 Cloudflare Header Transform 只读审计
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`WEBHOOK CHANGE DEFERRED / R2-CORS NO-OP APPROVED / NO CONFIG CHANGE`
 
 ## Request Header：Webhook Header

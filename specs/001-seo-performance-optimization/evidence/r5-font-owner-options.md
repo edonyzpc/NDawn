@@ -1,6 +1,6 @@
 # R5b/R5c Modern 与 Elegant 字体 owner 方案
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`OPTION A APPROVED / R5B LOCAL CANDIDATE READY / NO ONLINE CHANGE`
 
 ## 当前事实

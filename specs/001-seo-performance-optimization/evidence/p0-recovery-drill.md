@@ -1,6 +1,6 @@
 # P0 离线恢复演练
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`OFFLINE DRILL PASS / NO IMPORT / NO PRODUCTION CHANGE`
 
 ## 材料完整性
@@ -23,4 +23,3 @@
 5. Cloudflare 恢复：按单条规则保存的 predecessor 恢复；Ghost Export 不包含 Cloudflare 状态。
 
 本轮只验证文件可读、checksum、结构与恢复顺序，没有执行 Import/Upload/Activate/Save。真实写入演练会破坏生产状态，因此不是 P0 离线门的组成部分。
-

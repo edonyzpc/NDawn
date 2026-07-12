@@ -1,6 +1,6 @@
 # P0 / P1 / R0 Closure
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`P0 CLOSED WITH ACCEPTED EXTERNAL GAPS / P1 CLOSED / R0 NO-OP`
 
 ## P0

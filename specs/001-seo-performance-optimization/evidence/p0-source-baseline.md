@@ -1,6 +1,6 @@
 # P0 可重建源码基线
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`RECONSTRUCTIBLE / AUTHORING WIP ISOLATED`
 
 ## 基线
@@ -23,4 +23,3 @@
 | R7b | `112e3209e1949c50fbb22f0909628fd4dacb4121` | R7a（仅离线视觉链） |
 
 全部 commit object 已存在，可由 Git 重建；版本、checksum、predecessor 与发布状态记录于 `release-ledger.md`，长期窗口记录于 `observation-registry.md`，后续叠加回滚使用 `rollback-forward-template.md`。
-

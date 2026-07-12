@@ -1,6 +1,6 @@
 # R6 Prism 全量 allowlist 与离线清理候选
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`FULL EXPORT AUDIT / OFFLINE CANDIDATE / NO GHOST CHANGE`
 
 ## Owner 结论

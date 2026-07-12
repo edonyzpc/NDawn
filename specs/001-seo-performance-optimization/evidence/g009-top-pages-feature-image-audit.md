@@ -1,6 +1,6 @@
 # G-009 Search Console Top pages Feature image alt 审计
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`FOUR EXACT TEXTS APPROVED / EXECUTION PENDING / NO GHOST CHANGE`
 
 ## 当前渲染行为

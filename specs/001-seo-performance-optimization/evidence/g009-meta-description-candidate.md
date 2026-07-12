@@ -1,6 +1,6 @@
 # G-009 元数据第一批候选
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`EXACT TEXT APPROVED / EXECUTION PENDING / NO GHOST CHANGE`
 
 ## 候选

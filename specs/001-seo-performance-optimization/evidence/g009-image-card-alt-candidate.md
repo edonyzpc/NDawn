@@ -1,6 +1,6 @@
 # G-009 正文 Image Card alt 第一批候选
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`TWO LEXICAL TEXTS APPROVED / TWO LEGACY MOBILEDOC NO-OP APPROVED / NO GHOST CHANGE`
 
 ## Allowlist

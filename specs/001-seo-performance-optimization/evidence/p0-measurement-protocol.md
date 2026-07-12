@@ -1,6 +1,6 @@
 # P0 性能与兼容性测量协议
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`USER CONFIRMED / 60-RUN BASELINE COMPLETE`
 
 ## 固定工具

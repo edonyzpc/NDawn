@@ -1,6 +1,6 @@
 # R10 Ghost 专用 Full (strict) 方案
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`HOST-SCOPED DESIGN APPROVED / EXECUTION PENDING / NO CONFIG CHANGE`
 
 ## 当前事实

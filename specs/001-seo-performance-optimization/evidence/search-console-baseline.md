@@ -1,7 +1,7 @@
 # Google Search Console 基线与 G-009/R8 入口
 
-日期：2026-07-12  
-Property：`sc-domain:edony.ink`  
+日期：2026-07-12
+Property：`sc-domain:edony.ink`
 状态：`READ-ONLY AUDIT / FULL GHOST EXPORT CORRELATED / NO GSC WRITE / NO CONTENT CHANGE`
 
 ## Performance 基线

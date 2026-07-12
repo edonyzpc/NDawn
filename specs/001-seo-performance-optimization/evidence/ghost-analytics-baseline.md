@@ -1,6 +1,6 @@
 # Ghost Analytics 基线
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`READ-ONLY / LAST 30 DAYS / NO CONFIG CHANGE`
 
 ## 网站级样本

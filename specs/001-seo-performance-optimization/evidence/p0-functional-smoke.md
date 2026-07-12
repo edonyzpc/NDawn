@@ -1,6 +1,6 @@
 # P0 最终功能 Smoke
 
-日期：2026-07-12  
+日期：2026-07-12
 状态：`CLOSED WITH TWO ACCEPTED EXTERNAL GAPS / NO CONFIG CHANGE`
 
 ## 已通过
