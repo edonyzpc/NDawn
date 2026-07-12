@@ -80,12 +80,12 @@
 
 ## Phase R1 — Native JS + TOC [US1, US2, US3]
 
-- [ ] T038 [US1] 从已接受基线建立 R1 范围，排除 Ads、jQuery 范围与 SEO；依赖：T037；追踪：FR-003、FR-006。
-- [ ] T039 [P] [US3] 在 `assets/js/main.js` 原生化子菜单、Burger、主题切换；依赖：T038；追踪：FR-006。
-- [ ] T040 [P] [US3] 在 `assets/js/post.js` 原生化阅读进度、表格、PhotoSwipe；依赖：T038；追踪：FR-006。
-- [ ] T041 [US2] 使用原始 heading ID/`data-target-id` 修复特殊字符、重复标题和无 ID TOC；依赖：T040；追踪：FR-006。
-- [ ] T042 [US1] 重建 built/maps/ZIP，运行静态、包和 diff 检查；依赖：T039、T041；追踪：NFR-011。
-- [ ] T043 [US3] 完成浏览器、页面、用户状态和可访问性 Smoke；依赖：T042；追踪：FR-017、NFR-003、NFR-004、SC-003。
+- [x] T038 [US1] 从 accepted source head `4e3ac8a` 建立 R1 独立范围，确认它位于 active identity `dbc1e7b` 之后且排除 Ads、jQuery 范围与 SEO；依赖：T037；追踪：FR-003、FR-006。
+- [x] T039 [P] [US3] 在 `assets/js/main.js` 原生化子菜单、Burger、主题切换；Chrome 与 Safari fixture 均通过状态循环；依赖：T038；追踪：FR-006。
+- [x] T040 [P] [US3] 在 `assets/js/post.js` 原生化阅读进度、表格、PhotoSwipe；生产 predecessor 产品矩阵与 Chrome/Safari fixture 均通过；依赖：T038；追踪：FR-006。
+- [x] T041 [US2] 使用原始 heading ID/`data-target-id` 修复特殊字符、重复标题和无 ID TOC；Chrome/Safari 对 `中文 标题/%` 均能命中原目标并关闭 TOC；依赖：T040；追踪：FR-006。
+- [x] T042 [US1] 重建 built/maps/ZIP，source/ZIP fatal GScan、JS syntax、allowlist、identity、唯一 ZIP、diff 与 clean worktree 均通过；`ndawn-r1-local.zip` 重建 SHA-256 仍为 `0f11ca15…cd86`；依赖：T039、T041；追踪：NFR-011。
+- [x] T043 [US3] 完成 Chrome/Safari 真实 fixture、生产 predecessor 全产品/用户状态矩阵与可访问性 Smoke；候选上传后仍须在 T047 对 Ghost 实际候选执行立即检查；依赖：T042；追踪：FR-017、NFR-003、NFR-004、SC-003。
 - [ ] T044 [US1] 锁定 active predecessor、候选名、SHA/checksum并取得上传与激活批准；依赖：T043；追踪：FR-003、NFR-008、NFR-013。
 - [ ] T045 [US1] 合并 master，由 CI 验证并上传 R1 未激活候选；依赖：T044；追踪：FR-004、SC-012。
 - [ ] T046 [US1] 核对候选未激活后，在 Ghost Dashboard 手动激活并记录 Day 0；依赖：T045；追踪：NFR-013。

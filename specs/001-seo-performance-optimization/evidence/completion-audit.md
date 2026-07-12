@@ -12,7 +12,7 @@
 | FR-003 隔离发布 | 可重建源码基线、release ledger、observation registry、rollback-forward 模板与 R1–R7b 独立 commit object 已核验；authoring 工作区仍为混合 WIP | **部分** | 各单元继续按 accepted predecessor 重建 SHA/ZIP，不直接发布当前工作区 |
 | FR-004 CI/CD | F0a run `29179810177` PASS；F0b run `29179894534` PASS并上传唯一未激活候选；zero-upload runs `29180067547` / `29180120331` PASS；上传当时 Ghost active 不变，用户后续手动激活 | **完成** | D-020 下 PR 实跑 N/A，事件配置保留 |
 | FR-005 R0 Injection | Ghost Export 中 68 条非空 Injection 的 jQuery 命中为 0；P1 已关闭，R0 未产生配置写入或 Day 0 | **完成 / No-op** | 无 |
-| FR-006 R1 Native JS/TOC | 独立 commit `0e72467`、ZIP checksum、原生 JS、原始 heading ID 与真实 Chrome fixture | **独立本地候选** | P0/P1/R0 后取得发布批准，完成 Chrome/Safari/状态 Smoke、立即与 72h |
+| FR-006 R1 Native JS/TOC | 独立 commit `0e72467`、可重复 ZIP checksum、原生 JS、原始 heading ID 与真实 Chrome/Safari fixture；P0/P1/R0 已关闭 | **本地发布候选通过** | 取得 T044 上传/激活批准，完成 CI 上传、Ghost 实际候选立即与 72h |
 | FR-007 R2 Ads | 独立 commit `f52f512`/ZIP、近视口、布局/Slot、失败/重复/unfilled/fallback 状态机与 6-mode Chrome fixture | **独立本地候选** | R1 accepted 后从其 head 重建；锁定 G-003、真实 AdSense/三设备 Smoke、独立发布及 Day 7/14/28 |
 | FR-008 R3a jQuery 版本 | 独立 commit `82aebbb`/ZIP 只把全站 3.5.1 + SRI 升至 3.7.1 + SRI | **独立本地候选** | R2 accepted 后重建/核对，取得批准并完成生产观察 |
 | FR-009 R3b jQuery 范围 | 独立 commit `27051d2`/ZIP 仅把 jQuery 3.7.1 收敛到 home/paged/tag/author | **独立本地候选** | R0–R3a 接受后重建/核对并发布，Network 证明 Post/Page 无 jQuery |

@@ -16,6 +16,8 @@
 - source fatal GScan、ZIP fatal GScan、allowlist/identity/唯一 ZIP、JS syntax、`git diff --check` 均 PASS。
 - 本地验证 ZIP：`ndawn-r1-local`，SHA-256 `0f11ca15354d58b7d7fe24e52f11c19ccf475554f01918222091fd5a0927cd86`；仅用于验证，未上传。
 - 真实 Chrome fixture：More 打开/外部关闭、Burger `aria-expanded/aria-hidden`、主题 `System → Dark → Light → System`、特殊 ID `中文 标题/%` TOC 编码链接与原始目标平滑滚动均 PASS。
+- 真实 Safari fixture：More 展开后出现 Second/Third 且外部点击关闭；Burger 为 collapsed/expanded 并显示/隐藏 Mobile item；主题 `System → Dark → Light → System`；特殊 ID `中文 标题/%` 保持当前页面、命中原 H2、TOC 自动关闭，Escape 关闭亦 PASS。
+- 2026-07-12 从 clean worktree 重新构建 `ndawn-r1-local.zip`，source/ZIP fatal GScan、JS syntax、allowlist/identity/唯一 ZIP、built diff 与工作树 clean 均 PASS；SHA-256 精确复现为 `0f11ca15354d58b7d7fe24e52f11c19ccf475554f01918222091fd5a0927cd86`。
 - 未 push、未上传 Ghost、未激活；生产 active theme 不变。
 
 ## R1 — Native JS 与 TOC
@@ -101,6 +103,6 @@ http://127.0.0.1:8765/specs/001-seo-performance-optimization/evidence/fixtures/r
 
 - Ads script 监听器已在 append 前注册，并已在真实 Chromium 重跑成功加载与 `script-error` 场景；仍需在独立 R2 候选上完成真实 AdSense/三设备 Smoke。
 - R1/R2 predecessor 与独立本地候选已建立；两者的上传/激活批准尚未执行，且必须遵守前置阶段与 72h 顺序门。
-- R1 完整产品 Smoke 与 72 小时门尚未执行。
+- R1 上传前 Chrome/Safari fixture 与 predecessor 完整产品矩阵已完成；Ghost 实际候选的立即 Smoke 与 72 小时门尚未执行。
 - G-003 的 Ads 最低样本、收益回滚线和 owner 尚未锁定。
 - R2 线上 Ads Day 0、立即检查、72 小时及 Day 7/14/28 尚未开始。
