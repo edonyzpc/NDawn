@@ -1,0 +1,44 @@
+<!-- Prism shim: keep legacy post-level prism-xxx working -->
+<script>
+  window.Prism = window.Prism || {};
+  Prism.languages = Prism.languages || {};
+  Prism.plugins = Prism.plugins || {};
+  Prism.hooks = Prism.hooks || { all: {}, add: function(){}, run: function(){} };
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GMXX0SWB0S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  function initGtag(){
+    gtag('js', new Date());
+    gtag('consent', 'default', {
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted',
+      'ad_storage': 'granted',
+      'analytics_storage': 'granted',
+      'wait_for_update': 500,
+    });
+    gtag('config', 'G-GMXX0SWB0S');
+  }
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initGtag, {timeout: 2000});
+  } else {
+    window.addEventListener('load', initGtag);
+  }
+</script>
+
+<!-- bing.com search console config -->
+<meta name="msvalidate.01" content="E2119BC3F880FBE321D4B88C90578210" />
+
+<!-- Fonts: non-blocking load -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Alike&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alike&display=swap"></noscript>
+
+<!-- ****** customized style of edony.ink ****** -->
+

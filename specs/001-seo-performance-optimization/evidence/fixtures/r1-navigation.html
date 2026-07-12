@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NDawn R1 navigation fixture</title>
+    <style>
+        .sub-menu { display: none; }
+        .mobile-menu { display: none; }
+        .menu-opened .mobile-menu { display: block; }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <a class="menu-item" href="/first">First</a>
+        <a class="menu-item" href="...">Separator</a>
+        <a class="menu-item" href="/second">Second</a>
+        <a class="menu-item" href="/third">Third</a>
+        <button type="button" aria-label="Search">Search</button>
+    </nav>
+
+    <button type="button" class="button-icon burger" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false">
+        <span class="burger-bar"></span>
+        <span class="burger-bar"></span>
+    </button>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <a href="/mobile">Mobile item</a>
+    </div>
+
+    <a class="js-theme" href="#" data-system="System" data-dark="Dark" data-light="Light">
+        <span class="theme-text">System</span>
+    </a>
+
+    <button type="button" id="outside">Outside</button>
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>

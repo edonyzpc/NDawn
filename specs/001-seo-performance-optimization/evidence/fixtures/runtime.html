@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NDawn R1/R2 runtime fixture</title>
+    <link rel="stylesheet" href="/assets/css/blog/ads.css">
+    <style>
+        body { margin: 0; }
+        .single-content { min-height: 200px; }
+        .post-ads { width: 640px; }
+        .post-ad, .adsbygoogle { width: 600px; }
+    </style>
+</head>
+<body class="post-template">
+    <button class="sticky-toc-button" aria-controls="sticky-toc" aria-expanded="false">TOC</button>
+    <nav class="sticky-toc" id="sticky-toc" aria-label="Table of contents"></nav>
+    <div class="sticky-progress"></div>
+    <h1 class="single-title">Fixture</h1>
+    <main class="single-content">
+        <h2 id="中文 标题/%">中文 标题/%</h2>
+        <h3 id="second-heading">Second heading</h3>
+    </main>
+    <section class="post-ads" data-ad-script="/specs/001-seo-performance-optimization/evidence/fixtures/fake-ads.js?v=2">
+        <div class="post-ad"><ins class="adsbygoogle"></ins></div>
+        <div class="post-ad"><ins class="adsbygoogle"></ins></div>
+    </section>
+    <script>
+        var mode = new URLSearchParams(window.location.search).get('mode');
+        if (mode === 'script-error') {
+            document.querySelector('.post-ads').setAttribute('data-ad-script', '/missing-ads.js');
+        }
+        if (mode === 'no-observer') {
+            window.IntersectionObserver = undefined;
+        }
+        if (mode === 'zero-size') {
+            document.querySelector('.post-ads').style.display = 'none';
+        }
+        if (mode === 'status-timeout') {
+            document.querySelector('.post-ads').setAttribute('data-ad-status-timeout', '50');
+        }
+        window.scrollTo = function (options) {
+            document.body.setAttribute('data-scroll-behavior', options.behavior);
+            document.body.setAttribute('data-scroll-top', String(options.top));
+        };
+    </script>
+    <script src="/assets/js/post.js"></script>
+</body>
+</html>

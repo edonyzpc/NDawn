@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>首页 H1 / 摘要视觉门预览</title>
+    <style>
+        :root { color-scheme: dark; --bg:#282c35; --text:#f4f4f5; --muted:#9ca3af; --line:#3b404a; --accent:#ff4015; }
+        * { box-sizing: border-box; }
+        body { margin:0; background:#171a20; color:var(--text); font:16px/1.5 Barlow,"PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+        .review-note { margin:0; padding:12px 24px; background:#0f1115; color:#c9cdd5; text-align:center; font-size:14px; }
+        .comparison { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; padding:20px; }
+        .variant { overflow:hidden; border:1px solid #353a44; border-radius:12px; background:var(--bg); }
+        .variant-label { position:sticky; top:0; z-index:10; padding:10px 18px; background:rgba(15,17,21,.94); color:#d7dae0; font-size:14px; font-weight:700; }
+        .site { min-height:100vh; padding:22px 7% 54px; }
+        .header { display:flex; align-items:center; justify-content:space-between; color:var(--text); font-size:13px; font-weight:700; }
+        .logo { width:52px; height:52px; object-fit:contain; }
+        .nav { display:flex; gap:18px; }
+        .cover { display:flex; flex-direction:column; align-items:center; margin:48px auto 42px; max-width:560px; text-align:center; }
+        .avatar { width:116px; height:116px; border-radius:50%; object-fit:cover; }
+        .cover-title { margin:18px 0 6px; font-size:25px; line-height:1.2; }
+        .description { margin-top:18px; color:var(--accent); font-size:13px; }
+        .candidate .description { margin-top:8px; }
+        .featured-title { margin:0 0 18px; border-bottom:1px solid var(--line); padding-bottom:10px; color:var(--accent); font-size:16px; }
+        .featured { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-bottom:34px; }
+        .featured img { width:100%; aspect-ratio:16/9; object-fit:cover; }
+        .featured h3 { margin:9px 0 0; font-size:14px; }
+        .feed { max-width:760px; margin:auto; }
+        .row { display:grid; grid-template-columns:55px minmax(0,1fr) auto; gap:12px; align-items:center; border-bottom:1px solid var(--line); padding:13px 0; }
+        .date { color:var(--accent); font-size:11px; font-weight:800; }
+        .title { margin:0; font-size:14px; font-weight:400; }
+        .time { color:var(--muted); font-size:11px; white-space:nowrap; }
+        .excerpt { display:-webkit-box; overflow:hidden; margin:5px 0 0; color:var(--muted); font-size:12px; line-height:1.45; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+        .candidate .row { align-items:start; }
+        .candidate .time { padding-top:2px; }
+        @media (max-width:980px) { .comparison { grid-template-columns:1fr; } }
+        @media (max-width:620px) {
+            .comparison { padding:8px; }
+            .site { padding:18px 6% 40px; }
+            .nav span:nth-child(-n+2) { display:none; }
+            .featured { grid-template-columns:1fr; }
+            .featured article:nth-child(n+2) { display:none; }
+            .row { grid-template-columns:44px minmax(0,1fr); }
+            .time { grid-column:2; }
+        }
+    </style>
+</head>
+<body>
+    <p class="review-note">离线视觉门：左侧是当前结构，右侧只模拟“可见 H1 + 最新 5 篇两行摘要”；不是生产页面。</p>
+    <div class="comparison">
+        <section class="variant current" aria-labelledby="current-label">
+            <div class="variant-label" id="current-label">A · 当前首页结构</div>
+            <div class="site">
+                <header class="header">
+                    <img class="logo" src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/2026/02/shadow.walker.logo.svg" alt="Shadow Walker 松烟阁">
+                    <nav class="nav"><span>👾 前世今生</span><span>🕰️ 时光穿梭</span><span>🦶 读者足迹</span><span>•••</span><span>⌕</span></nav>
+                </header>
+                <div class="cover">
+                    <img class="avatar" src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/2025/05/4D86D20C-2695-408D-80DD-79ABCC41EA6A_4_5005_c-modified.webp" alt="Shadow Walker 松烟阁">
+                    <div class="description">Where other men are limited by morality or law, remember, everything is permitted. I walk in the darkness to serve the light.</div>
+                </div>
+                <h2 class="featured-title">精选辑</h2>
+                <div class="featured">
+                    <article><img src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/size/w960/format/webp/2025/10/Gemini_Generated_Image_ctwpg8ctwpg8ctwp-1-1.png" alt="在乌龟追上来之前"><h3>在乌龟追上来之前</h3></article>
+                    <article><img src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/size/w1140/format/webp/2025/06/1ad45fd8-12d5-4c87-93ba-5db5eaab347242-1.png" alt="AI的一些思考和总结"><h3>AI的一些思考和总结</h3></article>
+                    <article><img src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/size/w1140/format/webp/2024/12/0c98bc1e-0117-4875-afd4-a4fab949c9ee-1-1.png" alt="2024"><h3>2024</h3></article>
+                </div>
+                <div class="feed">
+                    <div class="row"><span class="date">4月 06</span><h2 class="title">AI 还没重构组织，焦虑先重构了管理</h2><span class="time">9 min read</span></div>
+                    <div class="row"><span class="date">3月 08</span><h2 class="title">为什么偏偏是“左耳进，右耳出”</h2><span class="time">6 min read</span></div>
+                    <div class="row"><span class="date">3月 01</span><h2 class="title">拆解 kimi-cli：Coding Agent 的能力上限，为什么在“模型之外”？</h2><span class="time">8 min read</span></div>
+                    <div class="row"><span class="date">2月 23</span><h2 class="title">我为 Memos 做了一个图片渲染服务</h2><span class="time">10 min read</span></div>
+                    <div class="row"><span class="date">2月 14</span><h2 class="title">终端属于 Agent，但人类需要“仪表盘”</h2><span class="time">5 min read</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="variant candidate" aria-labelledby="candidate-label">
+            <div class="variant-label" id="candidate-label">B · 候选：可见 H1 + 两行摘要</div>
+            <div class="site">
+                <header class="header">
+                    <img class="logo" src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/2026/02/shadow.walker.logo.svg" alt="Shadow Walker 松烟阁">
+                    <nav class="nav"><span>👾 前世今生</span><span>🕰️ 时光穿梭</span><span>🦶 读者足迹</span><span>•••</span><span>⌕</span></nav>
+                </header>
+                <div class="cover">
+                    <img class="avatar" src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/2025/05/4D86D20C-2695-408D-80DD-79ABCC41EA6A_4_5005_c-modified.webp" alt="Shadow Walker 松烟阁">
+                    <h1 class="cover-title">Shadow Walker 松烟阁</h1>
+                    <div class="description">Where other men are limited by morality or law, remember, everything is permitted. I walk in the darkness to serve the light.</div>
+                </div>
+                <h2 class="featured-title">精选辑</h2>
+                <div class="featured">
+                    <article><img src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/size/w960/format/webp/2025/10/Gemini_Generated_Image_ctwpg8ctwpg8ctwp-1-1.png" alt="在乌龟追上来之前"><h3>在乌龟追上来之前</h3></article>
+                    <article><img src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/size/w1140/format/webp/2025/06/1ad45fd8-12d5-4c87-93ba-5db5eaab347242-1.png" alt="AI的一些思考和总结"><h3>AI的一些思考和总结</h3></article>
+                    <article><img src="https://storage.ghost.io/c/a1/aa/a1aac964-8b5b-431c-a699-1c5dee073806/content/images/size/w1140/format/webp/2024/12/0c98bc1e-0117-4875-afd4-a4fab949c9ee-1-1.png" alt="2024"><h3>2024</h3></article>
+                </div>
+                <div class="feed">
+                    <div class="row"><span class="date">4月 06</span><div><h2 class="title">AI 还没重构组织，焦虑先重构了管理</h2><p class="excerpt">文章讨论 AI 热潮下“焦虑型管理”的蔓延，指出真正的提速应聚焦问题收敛能力，而非伪执行密度。</p></div><span class="time">9 min read</span></div>
+                    <div class="row"><span class="date">3月 08</span><div><h2 class="title">为什么偏偏是“左耳进，右耳出”</h2><p class="excerpt">从语言习惯、中医气机、尊卑秩序与空间方位解析“左到右”，并反思 AI 如何影响辨别力与实践动力。</p></div><span class="time">6 min read</span></div>
+                    <div class="row"><span class="date">3月 01</span><div><h2 class="title">拆解 kimi-cli：Coding Agent 的能力上限，为什么在“模型之外”？</h2><p class="excerpt">以 kimi-cli 为样本，讨论 Coding Agent 的上限为何取决于过程控制、风险边界、人机协作和长期演进。</p></div><span class="time">8 min read</span></div>
+                    <div class="row"><span class="date">2月 23</span><div><h2 class="title">我为 Memos 做了一个图片渲染服务</h2><p class="excerpt">记录图片渲染服务的架构取舍，包括 Playwright 截图、裁切模式、单机性能优化及可观测性设计。</p></div><span class="time">10 min read</span></div>
+                    <div class="row"><span class="date">2月 14</span><div><h2 class="title">终端属于 Agent，但人类需要“仪表盘”</h2><p class="excerpt">讨论 AI 编程时代 CLI 作为 Agent 引擎、GUI 作为人类仪表盘的分工，以及变更掌控与安全审计。</p></div><span class="time">5 min read</span></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

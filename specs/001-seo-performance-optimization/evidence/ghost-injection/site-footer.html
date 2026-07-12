@@ -1,0 +1,82 @@
+<!-- Prism: auto detect languages + autoloader + SRI -->
+<script>
+(function () {
+  var hasCode = document.querySelector('pre code[class*="language-"], code[class*="language-"], pre[class*="language-"]');
+  if (!hasCode) return;
+
+  window.Prism = window.Prism || {};
+  Prism.manual = true;
+
+  function loadStyle(href, integrity) {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.integrity = integrity;
+    link.crossOrigin = 'anonymous';
+    link.referrerPolicy = 'no-referrer';
+    document.head.appendChild(link);
+  }
+
+  function loadScript(src, integrity) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.integrity = integrity;
+      s.crossOrigin = 'anonymous';
+      s.referrerPolicy = 'no-referrer';
+      s.onload = resolve;
+      s.onerror = reject;
+      document.body.appendChild(s);
+    });
+  }
+
+  loadStyle(
+    'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css',
+    'sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=='
+  );
+  loadStyle(
+    'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/inline-color/prism-inline-color.min.css',
+    'sha512-jPGdTBr51+zDG6sY0smU+6rV19GOIN9RXAdVT8Gyvb55dToNJwq2n9SgCa764+z0xMuGA3/idik1tkQQhmALSA=='
+  );
+  loadStyle(
+    'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css',
+    'sha512-Dqf5696xtofgH089BgZJo2lSWTvev4GFo+gA2o4GullFY65rzQVQLQVlzLvYwTo0Bb2Gpb6IqwxYWtoMonfdhQ=='
+  );
+
+  loadScript(
+    'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js',
+    'sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=='
+  )
+    .then(function () {
+      return loadScript(
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js',
+        'sha512-SkmBfuA2hqjzEVpmnMt/LINrjop3GKWqsuLSSB3e7iBmYK7JuWw4ldmmxwD9mdm2IRTTi0OxSAfEGvgEi0i2Kw=='
+      );
+    })
+    .then(function () {
+      return loadScript(
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js',
+        'sha512-st608h+ZqzliahyzEpETxzU0f7z7a9acN6AFvYmHvpFhmcFuKT8a22TT5TpKpjDa3pt3Wv7Z3SdQBCBdDPhyWA=='
+      );
+    })
+    .then(function () {
+      return loadScript(
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js',
+        'sha512-/kVH1uXuObC0iYgxxCKY41JdWOkKOxorFVmip+YVifKsJ4Au/87EisD1wty7vxN2kAhnWh6Yc8o/dSAXj6Oz7A=='
+      );
+    })
+    .then(function () {
+      return loadScript(
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/inline-color/prism-inline-color.min.js',
+        'sha512-QK2YjLmowNZnKMI1UZNu0NxMPQZ3oxsbz2rRzmHt+xth2mKyFqied1D2TSDbSX+vAjHEgdWYZF/i4YI9sD0aNw=='
+      );
+    })
+    .then(function () {
+      Prism.plugins.autoloader.languages_path =
+        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+      Prism.highlightAll();
+    })
+    .catch(function () {});
+})();
+</script>
