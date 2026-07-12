@@ -52,6 +52,7 @@ jobs:
           echo "theme_name=$theme_name" >> "$GITHUB_OUTPUT"
           echo "final_zip=dist/$theme_name.zip" >> "$GITHUB_OUTPUT"
 
+      # Workflow-only changes validate CI itself without creating a Ghost candidate.
       - name: Detect upload-relevant changes
         id: theme_changes
         if: github.event_name == 'push'
