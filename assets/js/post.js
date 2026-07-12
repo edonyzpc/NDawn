@@ -280,6 +280,39 @@ function setupAds(container) {
         }
     }
 
+    function settleStatusTimeout() {
+        var rendered = 0;
+        var collapsed = 0;
+
+        cleanupStatusObservation();
+        slots.forEach(function (slot) {
+            var status = slot.getAttribute('data-ad-status');
+            var parent = slot.closest('.post-ad');
+            var hasFrame = Boolean(slot.querySelector('iframe'));
+
+            if (status === 'filled' || (!status && hasFrame)) {
+                rendered += 1;
+                if (parent) {
+                    parent.classList.remove('is-unfilled');
+                }
+            } else {
+                collapsed += 1;
+                if (parent) {
+                    parent.classList.add('is-unfilled');
+                }
+            }
+        });
+
+        if (rendered === 0) {
+            container.classList.add('is-empty');
+            setState('unfilled', 'status-timeout');
+        } else if (collapsed > 0) {
+            setState('rendered-partial', 'status-timeout-fallback');
+        } else {
+            setState('rendered', 'status-timeout-fallback');
+        }
+    }
+
     function observeSlotStatus() {
         if (typeof window.MutationObserver === 'function') {
             statusObserver = new MutationObserver(updateSlotStatus);
@@ -294,7 +327,7 @@ function setupAds(container) {
         statusTimer = window.setTimeout(function () {
             var state = container.getAttribute('data-ads-state');
             if (state === 'requested' || state === 'partially-rendered') {
-                fail('status-timeout');
+                settleStatusTimeout();
             }
         }, statusTimeout);
 
@@ -339,7 +372,7 @@ function setupAds(container) {
         var script = document.querySelector('script[src="' + scriptSrc + '"]');
         if (
             script &&
-            (script.getAttribute('data-ads-loaded') === 'true' ||
+            (script._ndawnAdsLoaded === true ||
                 (window.adsbygoogle && window.adsbygoogle.loaded))
         ) {
             requestAds();
@@ -353,7 +386,6 @@ function setupAds(container) {
             script.async = true;
             script.crossOrigin = 'anonymous';
             script.src = scriptSrc;
-            script.setAttribute('data-ndawn-ads-script', 'true');
         }
 
         var settled = false;
@@ -376,7 +408,7 @@ function setupAds(container) {
                 }
                 settled = true;
                 window.clearTimeout(scriptTimer);
-                script.setAttribute('data-ads-loaded', 'true');
+                script._ndawnAdsLoaded = true;
                 requestAds();
             },
             {once: true}

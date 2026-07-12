@@ -18,6 +18,15 @@
                 if (mode === 'status-timeout') {
                     return;
                 }
+                if (mode === 'partial-frame-timeout' && index > 0) {
+                    var frame = document.createElement('iframe');
+                    frame.style.width = '390px';
+                    unsettled.appendChild(frame);
+                    return;
+                }
+                if (mode === 'partial-empty-timeout' && index > 0) {
+                    return;
+                }
                 unsettled.setAttribute(
                     'data-ad-status',
                     mode === 'all-unfilled' || index > 0 ? 'unfilled' : 'filled'

@@ -5,8 +5,12 @@
     contain-intrinsic-size: auto calc(var(--ad-slot-height) * 2 + 2rem);
     display: grid;
     gap: 2rem;
+    width: min(800px, calc(100% - 8vw));
     margin-top: 4.5rem;
+    margin-right: auto;
     margin-bottom: 5rem;
+    margin-left: auto;
+    min-width: 0;
 }
 
 .post-ads.is-layout-ready {
@@ -25,6 +29,10 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 750px;
+    min-width: 0;
+    margin-right: auto;
+    margin-left: auto;
     min-height: 250px;
     overflow: hidden;
 }
@@ -32,7 +40,8 @@
 .post-ad .adsbygoogle {
     display: block;
     width: 100%;
-    max-width: 750px;
+    max-width: 100%;
+    min-width: 0;
     min-height: 250px;
 }
 

@@ -7,8 +7,6 @@
     <style>
         body { margin: 0; }
         .single-content { min-height: 200px; }
-        .post-ads { width: 640px; }
-        .post-ad, .adsbygoogle { width: 600px; }
     </style>
 </head>
 <body class="post-template">
@@ -35,7 +33,11 @@
         if (mode === 'zero-size') {
             document.querySelector('.post-ads').style.display = 'none';
         }
-        if (mode === 'status-timeout') {
+        if (
+            mode === 'status-timeout' ||
+            mode === 'partial-frame-timeout' ||
+            mode === 'partial-empty-timeout'
+        ) {
             document.querySelector('.post-ads').setAttribute('data-ad-status-timeout', '50');
         }
         window.scrollTo = function (options) {
