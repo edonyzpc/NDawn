@@ -86,6 +86,12 @@ jobs:
           node --check assets/js/home.js
           node --check assets/js/post.js
 
+      - name: Check theme semantics
+        run: yarn test:semantics
+
+      - name: Check saved injection evidence
+        run: yarn test:evidence
+
       - name: Validate source theme
         run: yarn test:ci
 

@@ -1,7 +1,7 @@
 {
     "name": "ndawn",
     "description": "A Next Ghost Dawn Theme",
-    "version": "2.2.3",
+    "version": "2.3.0",
     "engines": {
         "ghost": ">=5.0.0"
     },
@@ -45,8 +45,7 @@
                 "type": "select",
                 "options": [
                     "Modern sans-serif",
-                    "Elegant serif",
-                    "LXGW Bright"
+                    "Elegant serif"
                 ],
                 "default": "Modern sans-serif"
             },
@@ -54,8 +53,7 @@
                 "type": "select",
                 "options": [
                     "Modern sans-serif",
-                    "Elegant serif",
-                    "LXGW Bright"
+                    "Elegant serif"
                 ],
                 "default": "Modern sans-serif"
             },
@@ -98,6 +96,8 @@
         "dev": "gulp",
         "test": "gscan .",
         "test:ci": "gscan --fatal --verbose .",
+        "test:evidence": "node scripts/ci/validate-injection-snapshots.mjs",
+        "test:semantics": "node scripts/ci/validate-theme-semantics.mjs",
         "test:zip": "node scripts/ci/validate-theme-package.mjs",
         "test:zip:ci": "node scripts/ci/validate-theme-package.mjs",
         "lint": "gulp lint",

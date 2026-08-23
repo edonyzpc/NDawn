@@ -124,6 +124,12 @@
     outline: none;
 }
 
+.post-title-link {
+    position: relative;
+    z-index: 60;
+    color: inherit;
+}
+
 .u-placeholder {
     position: relative;
     z-index: 10;

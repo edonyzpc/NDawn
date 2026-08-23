@@ -1,13 +1,13 @@
 <nav class="pagination">
     {{#if next}}
-        <a class="older-posts" href="{{page_url next}}"></a>
+        <a class="older-posts" href="{{page_url next}}" aria-label="Older posts"></a>
     {{/if}}
 </nav>
-<div class="infinite-scroll-status">
-    <div class="infinite-scroll-request"></div>
+<div class="infinite-scroll-status" role="status" aria-live="polite">
+    <div class="infinite-scroll-request" aria-label="Loading more posts"></div>
 </div>
 <div class="infinite-scroll-action">
-    <button class="button button-secondary infinite-scroll-button">Load more</button>
+    <button type="button" class="button button-secondary infinite-scroll-button">Load more</button>
 </div>
 
 {{#contentFor "body_class"}}{{#if next}} paged-next{{/if}}{{/contentFor}}

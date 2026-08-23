@@ -1,4 +1,4 @@
-<article class="feed {{post_class}}">
+<article class="feed {{post_class}}{{#is "home"}}{{#match @index "<" 5}} feed-has-excerpt{{/match}}{{/is}}">
     <div class="feed-calendar">
         <div class="feed-calendar-month">
             {{date published_at format="MMM"}}
@@ -7,7 +7,16 @@
             {{date published_at format="DD"}}
         </div>
     </div>
-    <h2 class="feed-title">{{title}}</h2>
+    <div class="feed-content">
+        <h2 class="feed-title">
+            <a class="post-title-link" href="{{url}}">{{title}}</a>
+        </h2>
+        {{#is "home"}}
+            {{#match @index "<" 5}}
+                <p class="feed-excerpt">{{excerpt}}</p>
+            {{/match}}
+        {{/is}}
+    </div>
     <div class="feed-right">
         <svg class="icon feed-visibility feed-visibility-{{visibility}}">
             <use xlink:href="#star"></use>
@@ -19,5 +28,5 @@
     <svg class="icon feed-icon">
         <use xlink:href="#chevron-right"></use>
     </svg>
-    <a class="u-permalink" href="{{url}}" aria-label="{{title}}"></a>
+    <a class="u-permalink" href="{{url}}" aria-hidden="true" tabindex="-1"></a>
 </article>

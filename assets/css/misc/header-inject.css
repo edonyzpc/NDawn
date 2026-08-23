@@ -8,16 +8,6 @@
   --tag-background-pa: #3a4359;
   --tag-bg-hover-color: #535455;
 }
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Barlow", "PingFang SC", "Recursive Monospace", -apple-system,
-    var(--font-base) !important;
-}
 .gh-content > dl,
 .gh-content > ol,
 .gh-content > p,
@@ -34,7 +24,7 @@ h5 {
   font-size: 1.75rem !important;
 }
 .infinite-scroll-button {
-  font-family: "Barlow", "Recursive Monospace", "LXGW Bright", -apple-system !important;
+  font-family: "Barlow", "Recursive Monospace", -apple-system !important;
 }
 /*** image explicit width and height ***/
 img[class="logo-image"] {
@@ -52,16 +42,17 @@ div[class="forever-blog"] > a > img {
 /*** excerpt config ***/
 div.single-excerpt,
 div.cover-description {
-  font-family: "Barlow", 'Zhuque Fangsong (technical preview)', "Recursive Monospace", "LXGW Bright", -apple-system !important;
   font-weight: normal;
   /*font-style: italic;*/
   color: #ff4015; /*#5aa49d;#FF00FF;*/
   font-size: 15px;
 }
 blockquote:not([class]) {
-  font-family: "Barlow", 'Zhuque Fangsong (technical preview)', "Recursive Monospace", "LXGW Bright", -apple-system !important;
   font-style: normal;
   font-size: 1.6rem;
+}
+.has-serif-body div.cover-description {
+  font-family: var(--font-serif);
 }
 /*** github gist config ***/
 div[id^="file-"] > article > h1 {

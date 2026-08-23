@@ -43,15 +43,40 @@
     text-transform: uppercase;
 }
 
-.feed-title {
+.feed-content {
     flex-grow: 1;
     overflow: hidden;
-    margin-bottom: 0;
     padding-right: 1rem;
+    min-width: 0;
+}
+
+.feed-title {
+    overflow: hidden;
+    margin-bottom: 0;
     font-size: 1.6rem;
     font-weight: 400;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.feed-has-excerpt {
+    align-items: flex-start;
+}
+
+.feed-has-excerpt .feed-calendar,
+.feed-has-excerpt .feed-right {
+    padding-top: 0.2rem;
+}
+
+.feed-excerpt {
+    display: -webkit-box;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    color: var(--secondary-text-color);
+    font-size: 1.3rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .feed-right {

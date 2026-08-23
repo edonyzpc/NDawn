@@ -27,6 +27,12 @@
     opacity: 0;
 }
 
+.cover-title {
+    margin-bottom: 0.8rem;
+    font-size: 2.5rem;
+    line-height: 1.2;
+}
+
 .cover-description {
     font-size: 1.7rem;
 }
