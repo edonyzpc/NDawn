@@ -1,7 +1,7 @@
 {
     "name": "ndawn",
     "description": "A Next Ghost Dawn Theme",
-    "version": "2.3.0",
+    "version": "2.3.1",
     "engines": {
         "ghost": ">=5.0.0"
     },
@@ -97,7 +97,7 @@
         "test": "gscan .",
         "test:ci": "gscan --fatal --verbose .",
         "test:evidence": "node scripts/ci/validate-injection-snapshots.mjs",
-        "test:semantics": "node scripts/ci/validate-theme-semantics.mjs",
+        "test:semantics": "node scripts/ci/validate-theme-semantics.mjs && node --test scripts/ci/home-menu.test.mjs",
         "test:zip": "node scripts/ci/validate-theme-package.mjs",
         "test:zip:ci": "node scripts/ci/validate-theme-package.mjs",
         "lint": "gulp lint",

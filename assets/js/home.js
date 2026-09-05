@@ -1,5 +1,3 @@
-var body = $('body');
-
 $(function () {
     'use strict';
     featured();
@@ -52,6 +50,7 @@ function featured() {
 
 function pagination() {
     'use strict';
+    var body = $('body');
     var wrapper = $('.post-feed');
 
     if (body.hasClass('paged-next')) {
